@@ -1,5 +1,5 @@
 import unittest
-from logic_gates import nand_gate, and_gate
+from logic_gates import nand_gate, and_gate, not_gate
 
 class TestNandGate(unittest.TestCase):
     def test_nand_gate_all_false(self):
@@ -28,5 +28,14 @@ class TestAndGate(unittest.TestCase):
     result = and_gate(1, 1)
     self.assertEqual(result, 1)
 
+class TestNotGate(unittest.TestCase):
+  def test_input_0(self):
+    result = not_gate(0)
+    self.assertEqual(result, 1)
+
+  def test_input_1(self):
+    result = not_gate(1)
+    self.assertEqual(result, 0)
+
 if __name__ == '__main__':
-    unittest.main()
+  unittest.main()
