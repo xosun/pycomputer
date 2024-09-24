@@ -1,5 +1,5 @@
 def nand_gate(a, b):
-    return not (a and b)
+    return 1 if a == 0 or b == 0 else 0
 
 
 def and_gate(a, b):
