@@ -16,6 +16,7 @@ def or_gate(a, b):
     bb_nand = nand_gate(b, b)
     return nand_gate(aa_nand, bb_nand)
 
+
 def xor_gate(a, b):
     ab_nand = nand_gate(a, b)
     a_and_ab_nand = nand_gate(a, ab_nand)
