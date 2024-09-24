@@ -1,5 +1,12 @@
 import unittest
-from logic_gates import nand_gate, and_gate, not_gate, or_gate, xor_gate
+from logic_gates import (
+    nand_gate,
+    and_gate,
+    not_gate,
+    or_gate,
+    xor_gate,
+    mux_circuit,
+)
 
 
 class TestLogicGates(unittest.TestCase):
@@ -30,6 +37,16 @@ class TestLogicGates(unittest.TestCase):
         self.assertEqual(xor_gate(1, 0), 1)
         self.assertEqual(xor_gate(0, 1), 1)
         self.assertEqual(xor_gate(1, 1), 0)
+
+    def test_mux_circuit(self):
+        self.assertEqual(mux_circuit(0, 0, 0), 0)
+        self.assertEqual(mux_circuit(0, 0, 1), 0)
+        self.assertEqual(mux_circuit(0, 1, 0), 1)
+        self.assertEqual(mux_circuit(0, 1, 1), 0)
+        self.assertEqual(mux_circuit(1, 0, 0), 0)
+        self.assertEqual(mux_circuit(1, 0, 1), 1)
+        self.assertEqual(mux_circuit(1, 1, 0), 1)
+        self.assertEqual(mux_circuit(1, 1, 1), 1)
 
 
 if __name__ == "__main__":

@@ -22,3 +22,10 @@ def xor_gate(a, b):
     a_and_ab_nand = nand_gate(a, ab_nand)
     b_and_ab_nand = nand_gate(b, ab_nand)
     return nand_gate(a_and_ab_nand, b_and_ab_nand)
+
+
+def mux_circuit(a, b, sel):
+    c = nand_gate(a, sel)
+    d = nand_gate(sel, sel)
+    e = nand_gate(b, d)
+    return nand_gate(c, e)
