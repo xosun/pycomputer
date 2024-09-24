@@ -7,3 +7,8 @@ def and_gate(a, b):
 
 def not_gate(a):
     return nand_gate(a, a)
+
+def or_gate(a, b):
+    aa_nand = nand_gate(a, a)
+    bb_nand = nand_gate(b, b)
+    return nand_gate(aa_nand, bb_nand)
