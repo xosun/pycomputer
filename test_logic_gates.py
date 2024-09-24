@@ -1,5 +1,5 @@
 import unittest
-from logic_gates import nand_gate, and_gate, not_gate, or_gate
+from logic_gates import nand_gate, and_gate, not_gate, or_gate, xor_gate
 
 
 class TestNandGate(unittest.TestCase):
@@ -45,6 +45,16 @@ class TestOrGate(unittest.TestCase):
     def test_or_gate_both_true(self):
         self.assertEqual(or_gate(1, 1), 1)
 
+class TestXorGate(unittest.TestCase):
+    def test_xor_gate_both_false(self):
+        self.assertEqual(xor_gate(0, 0), 0)
+
+    def test_xor_gate_one_false(self):
+        self.assertEqual(xor_gate(1, 0), 1)
+        self.assertEqual(xor_gate(0, 1), 1)
+
+    def test_xor_gate_both_true(self):
+        self.assertEqual(xor_gate(1, 1), 0)
 
 if __name__ == "__main__":
     unittest.main()
