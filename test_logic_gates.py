@@ -6,6 +6,7 @@ from logic_gates import (
     or_gate,
     xor_gate,
     mux_circuit,
+    dmux_circuit,
 )
 
 
@@ -47,6 +48,12 @@ class TestLogicGates(unittest.TestCase):
         self.assertEqual(mux_circuit(1, 0, 1), 1)
         self.assertEqual(mux_circuit(1, 1, 0), 1)
         self.assertEqual(mux_circuit(1, 1, 1), 1)
+
+    def test_dmux_circuit(self):
+        print(dmux_circuit(0, 0), [0, 0])
+        print(dmux_circuit(0, 1), [1, 0])
+        print(dmux_circuit(1, 0), [0, 0])
+        print(dmux_circuit(1, 1), [0, 1])
 
 
 if __name__ == "__main__":

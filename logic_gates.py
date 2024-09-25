@@ -29,3 +29,12 @@ def mux_circuit(a, b, sel):
     d = nand_gate(sel, sel)
     e = nand_gate(b, d)
     return nand_gate(c, e)
+
+
+def dmux_circuit(sel, data):
+    not_sel = nand_gate(sel, sel)
+    not_sel_data = nand_gate(not_sel, data)
+    sel_data = nand_gate(sel, data)
+    a = nand_gate(not_sel_data, not_sel_data)
+    b = nand_gate(sel_data, sel_data)
+    return a, b
