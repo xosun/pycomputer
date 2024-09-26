@@ -1,4 +1,4 @@
-import unittest
+import pytest
 from logic_gates import (
     nand_gate,
     and_gate,
@@ -11,76 +11,89 @@ from logic_gates import (
 )
 
 
-class TestLogicGates(unittest.TestCase):
-    def test_nand_gate(self):
-        self.assertEqual(nand_gate(0, 0), 1)
-        self.assertEqual(nand_gate(0, 1), 1)
-        self.assertEqual(nand_gate(1, 0), 1)
-        self.assertEqual(nand_gate(1, 1), 0)
+def test_nand_gate():
+    assert nand_gate(0, 0) == 1
+    assert nand_gate(0, 1) == 1
+    assert nand_gate(1, 0) == 1
+    assert nand_gate(1, 1) == 0
 
-    def test_and_gate(self):
-        self.assertEqual(and_gate(0, 0), 0)
-        self.assertEqual(and_gate(0, 1), 0)
-        self.assertEqual(and_gate(1, 0), 0)
-        self.assertEqual(and_gate(1, 1), 1)
 
-    def test_not_gate(self):
-        self.assertEqual(not_gate(0), 1)
-        self.assertEqual(not_gate(1), 0)
+def test_and_gate():
+    assert and_gate(0, 0) == 0
+    assert and_gate(0, 1) == 0
+    assert and_gate(1, 0) == 0
+    assert and_gate(1, 1) == 1
 
-    def test_or_gate(self):
-        self.assertEqual(or_gate(0, 0), 0)
-        self.assertEqual(or_gate(0, 1), 1)
-        self.assertEqual(or_gate(1, 0), 1)
-        self.assertEqual(or_gate(1, 1), 1)
 
-    def test_xor_gate(self):
-        self.assertEqual(xor_gate(0, 0), 0)
-        self.assertEqual(xor_gate(1, 0), 1)
-        self.assertEqual(xor_gate(0, 1), 1)
-        self.assertEqual(xor_gate(1, 1), 0)
+def test_not_gate():
+    assert not_gate(0) == 1
+    assert not_gate(1) == 0
 
-    def test_mux_circuit(self):
-        self.assertEqual(mux_circuit(0, 0, 0), 0)
-        self.assertEqual(mux_circuit(0, 0, 1), 0)
-        self.assertEqual(mux_circuit(0, 1, 0), 1)
-        self.assertEqual(mux_circuit(0, 1, 1), 0)
-        self.assertEqual(mux_circuit(1, 0, 0), 0)
-        self.assertEqual(mux_circuit(1, 0, 1), 1)
-        self.assertEqual(mux_circuit(1, 1, 0), 1)
-        self.assertEqual(mux_circuit(1, 1, 1), 1)
 
-    def test_dmux_circuit(self):
-        self.assertEqual(dmux_circuit(0, 0), (0, 0))
-        self.assertEqual(dmux_circuit(0, 1), (1, 0))
-        self.assertEqual(dmux_circuit(1, 0), (0, 0))
-        self.assertEqual(dmux_circuit(1, 1), (0, 1))
+def test_or_gate():
+    assert or_gate(0, 0) == 0
+    assert or_gate(0, 1) == 1
+    assert or_gate(1, 0) == 1
+    assert or_gate(1, 1) == 1
 
-    def test_not16(self):
-        self.assertEqual(
-            not16([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        )
-        self.assertEqual(
-            not16([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]),
+
+def test_xor_gate():
+    assert xor_gate(0, 0) == 0
+    assert xor_gate(1, 0) == 1
+    assert xor_gate(0, 1) == 1
+    assert xor_gate(1, 1) == 0
+
+
+def test_mux_circuit():
+    assert mux_circuit(0, 0, 0) == 0
+    assert mux_circuit(0, 0, 1) == 0
+    assert mux_circuit(0, 1, 0) == 1
+    assert mux_circuit(0, 1, 1) == 0
+    assert mux_circuit(1, 0, 0) == 0
+    assert mux_circuit(1, 0, 1) == 1
+    assert mux_circuit(1, 1, 0) == 1
+    assert mux_circuit(1, 1, 1) == 1
+
+
+def test_dmux_circuit():
+    assert dmux_circuit(0, 0) == (0, 0)
+    assert dmux_circuit(0, 1) == (1, 0)
+    assert dmux_circuit(1, 0) == (0, 0)
+    assert dmux_circuit(1, 1) == (0, 1)
+
+
+def test_not16():
+    expected_io = [
+        [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        )
-        self.assertEqual(
-            not16([1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]),
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        ],
+        [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ],
+        [
+            [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
             [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-        )
-        self.assertEqual(
-            not16([0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1]),
+        ],
+        [
+            [0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1],
             [1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0],
-        )
-        self.assertEqual(
-            not16([0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0]),
+        ],
+        [
+            [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0],
             [1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1],
-        )
+        ],
+    ]
+    assert not16(expected_io[0][0]) == expected_io[0][1]
+    assert not16(expected_io[1][0]) == expected_io[1][1]
+    assert not16(expected_io[2][0]) == expected_io[2][1]
+    assert not16(expected_io[3][0]) == expected_io[3][1]
+    assert not16(expected_io[4][0]) == expected_io[4][1]
 
     def test_invalid_not16(self):
         pass
 
 
 if __name__ == "__main__":
-    unittest.main()
+    pytest.main()
