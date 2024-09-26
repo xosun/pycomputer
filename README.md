@@ -41,9 +41,3 @@
 #### Test with `pytest`
 
 `pytest`
-
-### Updating requirements.txt
-
-#### To update `requirments.txt` file with any new dependencies, run:
-
-`pip freeze > requirements.txt`
