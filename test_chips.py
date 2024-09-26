@@ -8,6 +8,8 @@ from chips import (
     mux,
     dmux,
     not16,
+    and16,
+    or16,
 )
 
 
@@ -92,17 +94,115 @@ def test_not16():
     assert not16(expected_io[4][0]) == expected_io[4][1]
 
 
-@pytest.mark.parametrize(
-    "input_data, expected_error",
-    [
-        ([0] * 15, "Input list must be exactly 16 integers long"),
-        ([0] * 17, "Input list must be exactly 16 integers long"),
-    ],
-)
-def test_invalid_not16_length(input_data, expected_error):
+def test_and16():
+    expected_io = [
+        [
+            [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            ],
+            [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+        ],
+        [
+            [
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+            [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+        ],
+        [
+            [
+                [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+                [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            ],
+            [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+        ],
+        [
+            [
+                [0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0],
+            ],
+            [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+        ],
+        [
+            [
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            ],
+            [
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            ],
+        ],
+    ]
+    assert and16(expected_io[0][0][0], expected_io[0][0][1]) == expected_io[0][1][0]
+    assert and16(expected_io[1][0][0], expected_io[1][0][1]) == expected_io[1][1][0]
+    assert and16(expected_io[2][0][0], expected_io[2][0][1]) == expected_io[2][1][0]
+    assert and16(expected_io[3][0][0], expected_io[3][0][1]) == expected_io[3][1][0]
+    assert and16(expected_io[4][0][0], expected_io[4][0][1]) == expected_io[4][1][0]
+
+
+def test_or16():
+    expected_io = [
+        [
+            [
+                [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+                [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            ],
+            [
+                [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            ],
+        ],
+        [
+            [
+                [0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+                [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+            [
+                [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            ],
+        ],
+    ]
+    assert or16(expected_io[0][0][0], expected_io[0][0][1]) == expected_io[0][1][0]
+
+
+@pytest.fixture(params=[15, 17])
+def invalid_length(request):
+    return request.param
+
+
+def assert_invalid_length(func, length: int):
     with pytest.raises(ValueError) as excinfo:
-        not16(input_data)
-    assert str(excinfo.value) == expected_error
+        func([0] * length)
+    assert str(excinfo.value) == "Input list must be exactly 16 integers long"
+
+
+def assert_invalid_length_x2(func, length: int):
+    with pytest.raises(ValueError) as excinfo:
+        func([0] * length, [0] * length)
+    assert str(excinfo.value) == "Input list must be exactly 16 integers long"
+
+
+@pytest.mark.usefixtures("invalid_length")
+def test_not16_invalid_length(invalid_length):
+    assert_invalid_length(not16, invalid_length)
+
+
+@pytest.mark.usefixtures("invalid_length")
+def test_and16_invalid_length(invalid_length):
+    assert_invalid_length_x2(and16, invalid_length)
+
+
+@pytest.mark.usefixtures("invalid_length")
+def test_or16_invalid_length(invalid_length):
+    assert_invalid_length_x2(or16, invalid_length)
 
 
 if __name__ == "__main__":

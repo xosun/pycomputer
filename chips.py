@@ -49,9 +49,34 @@ def validate16(func):
     return wrapper
 
 
+def validate16x2(func):
+    def wrapper(a: list[int], b: list[int]) -> list[int]:
+        if len(a) != 16 or len(b) != 16:
+            raise ValueError("Input list must be exactly 16 integers long")
+        return func(a, b)
+
+    return wrapper
+
+
 @validate16
 def not16(data: list[int]) -> list[int]:
     output = []
     for bit in data:
         output.append(not_gate(bit))
+    return output
+
+
+@validate16x2
+def and16(a: list[int], b: list[int]) -> list[int]:
+    output = []
+    for idx in range(len(a)):
+        output.append(and_gate(a[idx], b[idx]))
+    return output
+
+
+@validate16x2
+def or16(a: list[int], b: list[int]) -> list[int]:
+    output = []
+    for idx in range(len(a)):
+        output.append(or_gate(a[idx], b[idx]))
     return output
