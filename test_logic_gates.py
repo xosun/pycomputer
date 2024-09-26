@@ -7,6 +7,7 @@ from logic_gates import (
     xor_gate,
     mux_circuit,
     dmux_circuit,
+    not16,
 )
 
 
@@ -54,6 +55,31 @@ class TestLogicGates(unittest.TestCase):
         self.assertEqual(dmux_circuit(0, 1), (1, 0))
         self.assertEqual(dmux_circuit(1, 0), (0, 0))
         self.assertEqual(dmux_circuit(1, 1), (0, 1))
+
+    def test_not16(self):
+        self.assertEqual(
+            not16([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        )
+        self.assertEqual(
+            not16([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]),
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        )
+        self.assertEqual(
+            not16([1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]),
+            [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        )
+        self.assertEqual(
+            not16([0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1]),
+            [1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0],
+        )
+        self.assertEqual(
+            not16([0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0]),
+            [1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1],
+        )
+
+    def test_invalid_not16(self):
+        pass
 
 
 if __name__ == "__main__":

@@ -38,3 +38,20 @@ def dmux_circuit(sel: int, data: int) -> tuple[int, int]:
     a = nand_gate(not_sel_data, not_sel_data)
     b = nand_gate(sel_data, sel_data)
     return a, b
+
+
+def validate16(func):
+    def wrapper(data: list[int]) -> list[int]:
+        if len(data) != 16:
+            raise ValueError("Input list must be exactly 16 integers long")
+        return func(data)
+
+    return wrapper
+
+
+@validate16
+def not16(data: list[int]) -> list[int]:
+    output = []
+    for bit in data:
+        output.append(not_gate(bit))
+    return output
