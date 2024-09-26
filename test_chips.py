@@ -1,12 +1,12 @@
 import pytest
-from logic_gates import (
+from chips import (
     nand_gate,
     and_gate,
     not_gate,
     or_gate,
     xor_gate,
-    mux_circuit,
-    dmux_circuit,
+    mux,
+    dmux,
     not16,
 )
 
@@ -44,22 +44,22 @@ def test_xor_gate():
     assert xor_gate(1, 1) == 0
 
 
-def test_mux_circuit():
-    assert mux_circuit(0, 0, 0) == 0
-    assert mux_circuit(0, 0, 1) == 0
-    assert mux_circuit(0, 1, 0) == 1
-    assert mux_circuit(0, 1, 1) == 0
-    assert mux_circuit(1, 0, 0) == 0
-    assert mux_circuit(1, 0, 1) == 1
-    assert mux_circuit(1, 1, 0) == 1
-    assert mux_circuit(1, 1, 1) == 1
+def test_mux():
+    assert mux(0, 0, 0) == 0
+    assert mux(0, 0, 1) == 0
+    assert mux(0, 1, 0) == 1
+    assert mux(0, 1, 1) == 0
+    assert mux(1, 0, 0) == 0
+    assert mux(1, 0, 1) == 1
+    assert mux(1, 1, 0) == 1
+    assert mux(1, 1, 1) == 1
 
 
-def test_dmux_circuit():
-    assert dmux_circuit(0, 0) == (0, 0)
-    assert dmux_circuit(0, 1) == (1, 0)
-    assert dmux_circuit(1, 0) == (0, 0)
-    assert dmux_circuit(1, 1) == (0, 1)
+def test_dmux():
+    assert dmux(0, 0) == (0, 0)
+    assert dmux(0, 1) == (1, 0)
+    assert dmux(1, 0) == (0, 0)
+    assert dmux(1, 1) == (0, 1)
 
 
 def test_not16():

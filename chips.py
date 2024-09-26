@@ -24,14 +24,14 @@ def xor_gate(a: int, b: int) -> int:
     return nand_gate(a_and_ab_nand, b_and_ab_nand)
 
 
-def mux_circuit(a: int, b: int, sel: int) -> int:
+def mux(a: int, b: int, sel: int) -> int:
     c = nand_gate(a, sel)
     d = nand_gate(sel, sel)
     e = nand_gate(b, d)
     return nand_gate(c, e)
 
 
-def dmux_circuit(sel: int, data: int) -> tuple[int, int]:
+def dmux(sel: int, data: int) -> tuple[int, int]:
     not_sel = nand_gate(sel, sel)
     not_sel_data = nand_gate(not_sel, data)
     sel_data = nand_gate(sel, data)
