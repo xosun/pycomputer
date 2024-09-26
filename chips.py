@@ -1,3 +1,6 @@
+import inspect
+
+
 def nand_gate(a: int, b: int) -> int:
     return 1 if a == 0 or b == 0 else 0
 
@@ -50,10 +53,14 @@ def validate16(func):
 
 
 def validate16x2(func):
-    def wrapper(a: list[int], b: list[int]) -> list[int]:
+    def wrapper(a: list[int], b: list[int], sel: int = 0) -> list[int]:
         if len(a) != 16 or len(b) != 16:
             raise ValueError("Input list must be exactly 16 integers long")
-        return func(a, b)
+        num_params = len(inspect.signature(func).parameters)
+        if num_params == 2:
+            return func(a, b)
+        else:
+            return func(a, b, sel)
 
     return wrapper
 
@@ -79,4 +86,12 @@ def or16(a: list[int], b: list[int]) -> list[int]:
     output = []
     for idx in range(len(a)):
         output.append(or_gate(a[idx], b[idx]))
+    return output
+
+
+@validate16x2
+def mux16(a: list[int], b: list[int], sel: int) -> list[int]:
+    output = []
+    for idx in range(len(a)):
+        output.append(mux(a[idx], b[idx], sel))
     return output

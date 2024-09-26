@@ -10,6 +10,7 @@ from chips import (
     not16,
     and16,
     or16,
+    mux16,
 )
 
 
@@ -158,6 +159,23 @@ def test_or16():
     assert or16(expected_io[2][0][0], expected_io[2][0][1]) == expected_io[2][1][0]
 
 
+@pytest.mark.parametrize(
+    "a, b, sel, expected",
+    [
+        ([0] * 16, [0] * 16, 0, [0] * 16),
+        ([0] * 16, [0] * 16, 1, [0] * 16),
+        ([0] * 16, [1] * 16, 0, [1] * 16),
+        ([0] * 16, [1] * 16, 1, [0] * 16),
+        ([1] * 16, [0] * 16, 0, [0] * 16),
+        ([1] * 16, [0] * 16, 1, [1] * 16),
+        ([1] * 16, [1] * 16, 0, [1] * 16),
+        ([1] * 16, [1] * 16, 1, [1] * 16),
+    ],
+)
+def test_mux16(a, b, sel, expected):
+    assert mux16(a, b, sel) == expected
+
+
 @pytest.fixture(params=[15, 17])
 def invalid_length(request):
     return request.param
@@ -188,6 +206,11 @@ def test_and16_invalid_length(invalid_length):
 @pytest.mark.usefixtures("invalid_length")
 def test_or16_invalid_length(invalid_length):
     assert_invalid_length_x2(or16, invalid_length)
+
+
+@pytest.mark.usefixtures("invalid_length")
+def test_mux16_invalid_length(invalid_length):
+    assert_invalid_length_x2(mux16, invalid_length)
 
 
 if __name__ == "__main__":
