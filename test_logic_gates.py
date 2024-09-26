@@ -91,8 +91,18 @@ def test_not16():
     assert not16(expected_io[3][0]) == expected_io[3][1]
     assert not16(expected_io[4][0]) == expected_io[4][1]
 
-    def test_invalid_not16(self):
-        pass
+
+@pytest.mark.parametrize(
+    "input_data, expected_error",
+    [
+        ([0] * 15, "Input list must be exactly 16 integers long"),
+        ([0] * 17, "Input list must be exactly 16 integers long"),
+    ],
+)
+def test_invalid_not16_length(input_data, expected_error):
+    with pytest.raises(ValueError) as excinfo:
+        not16(input_data)
+    assert str(excinfo.value) == expected_error
 
 
 if __name__ == "__main__":
