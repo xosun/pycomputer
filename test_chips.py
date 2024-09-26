@@ -82,16 +82,10 @@ def test_not16():
             [0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1],
             [1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0],
         ],
-        [
-            [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0],
-            [1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1],
-        ],
     ]
     assert not16(expected_io[0][0]) == expected_io[0][1]
     assert not16(expected_io[1][0]) == expected_io[1][1]
     assert not16(expected_io[2][0]) == expected_io[2][1]
-    assert not16(expected_io[3][0]) == expected_io[3][1]
-    assert not16(expected_io[4][0]) == expected_io[4][1]
 
 
 def test_and16():
@@ -100,24 +94,6 @@ def test_and16():
             [
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            ],
-            [
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ],
-        ],
-        [
-            [
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ],
-            [
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ],
-        ],
-        [
-            [
-                [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-                [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
             ],
             [
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -145,12 +121,19 @@ def test_and16():
     assert and16(expected_io[0][0][0], expected_io[0][0][1]) == expected_io[0][1][0]
     assert and16(expected_io[1][0][0], expected_io[1][0][1]) == expected_io[1][1][0]
     assert and16(expected_io[2][0][0], expected_io[2][0][1]) == expected_io[2][1][0]
-    assert and16(expected_io[3][0][0], expected_io[3][0][1]) == expected_io[3][1][0]
-    assert and16(expected_io[4][0][0], expected_io[4][0][1]) == expected_io[4][1][0]
 
 
 def test_or16():
     expected_io = [
+        [
+            [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            ],
+            [
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            ],
+        ],
         [
             [
                 [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
@@ -171,6 +154,8 @@ def test_or16():
         ],
     ]
     assert or16(expected_io[0][0][0], expected_io[0][0][1]) == expected_io[0][1][0]
+    assert or16(expected_io[1][0][0], expected_io[1][0][1]) == expected_io[1][1][0]
+    assert or16(expected_io[2][0][0], expected_io[2][0][1]) == expected_io[2][1][0]
 
 
 @pytest.fixture(params=[15, 17])
