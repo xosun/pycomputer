@@ -20,7 +20,7 @@ from src.chips import (
 
 def read_csv_data(csv_file):
     TEST_DATA_PATH = os.path.join(os.path.dirname(__file__), "test_data")
-    with open(os.path.join(TEST_DATA_PATH, csv_file), "r") as file:
+    with open(os.path.join(TEST_DATA_PATH, "truth_tables", csv_file), "r") as file:
         reader = csv.DictReader(file)
         return [
             [
