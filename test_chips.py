@@ -66,7 +66,7 @@ def test_dmux():
 
 
 @pytest.mark.parametrize(
-    "a, expected",
+    "x, expected",
     [
         ([0] * 16, [1] * 16),
         ([1] * 16, [0] * 16),
@@ -76,12 +76,12 @@ def test_dmux():
         ),
     ],
 )
-def test_not16(a, expected):
-    assert not16(a) == expected
+def test_not16(x, expected):
+    assert not16(x) == expected
 
 
 @pytest.mark.parametrize(
-    "a, b, expected",
+    "x, y, expected",
     [
         ([0] * 16, [1] * 16, [0] * 16),
         ([1] * 16, [1] * 16, [1] * 16),
@@ -92,12 +92,12 @@ def test_not16(a, expected):
         ),
     ],
 )
-def test_and16(a, b, expected):
-    assert and16(a, b) == expected
+def test_and16(x, y, expected):
+    assert and16(x, y) == expected
 
 
 @pytest.mark.parametrize(
-    "a, b, expected",
+    "x, y, expected",
     [
         ([0] * 16, [1] * 16, [1] * 16),
         (
@@ -112,12 +112,12 @@ def test_and16(a, b, expected):
         ),
     ],
 )
-def test_or16(a, b, expected):
-    assert or16(a, b) == expected
+def test_or16(x, y, expected):
+    assert or16(x, y) == expected
 
 
 @pytest.mark.parametrize(
-    "a, b, sel, expected",
+    "x, y, sel, expected",
     [
         ([0] * 16, [0] * 16, 0, [0] * 16),
         ([0] * 16, [0] * 16, 1, [0] * 16),
@@ -129,8 +129,8 @@ def test_or16(a, b, expected):
         ([1] * 16, [1] * 16, 1, [1] * 16),
     ],
 )
-def test_mux16(a, b, sel, expected):
-    assert mux16(a, b, sel) == expected
+def test_mux16(x, y, sel, expected):
+    assert mux16(x, y, sel) == expected
 
 
 if __name__ == "__main__":
