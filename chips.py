@@ -1,50 +1,46 @@
-import inspect
+def nand_gate(x: int, y: int) -> int:
+    return 1 if x == 0 or y == 0 else 0
 
 
-def nand_gate(a: int, b: int) -> int:
-    return 1 if a == 0 or b == 0 else 0
+def and_gate(x: int, y: int) -> int:
+    xy_nand = nand_gate(x, y)
+    return nand_gate(xy_nand, xy_nand)
 
 
-def and_gate(a: int, b: int) -> int:
-    ab_nand = nand_gate(a, b)
-    return nand_gate(ab_nand, ab_nand)
+def not_gate(x: int) -> int:
+    return nand_gate(x, x)
 
 
-def not_gate(a: int) -> int:
-    return nand_gate(a, a)
+def or_gate(x: int, y: int) -> int:
+    xx_nand = nand_gate(x, x)
+    yy_nand = nand_gate(y, y)
+    return nand_gate(xx_nand, yy_nand)
 
 
-def or_gate(a: int, b: int) -> int:
-    aa_nand = nand_gate(a, a)
-    bb_nand = nand_gate(b, b)
-    return nand_gate(aa_nand, bb_nand)
+def xor_gate(x: int, y: int) -> int:
+    xy_nand = nand_gate(x, y)
+    x_and_xy_nand = nand_gate(x, xy_nand)
+    y_and_xy_nand = nand_gate(y, xy_nand)
+    return nand_gate(x_and_xy_nand, y_and_xy_nand)
 
 
-def xor_gate(a: int, b: int) -> int:
-    ab_nand = nand_gate(a, b)
-    a_and_ab_nand = nand_gate(a, ab_nand)
-    b_and_ab_nand = nand_gate(b, ab_nand)
-    return nand_gate(a_and_ab_nand, b_and_ab_nand)
+def mux(x: int, y: int, sel: int) -> int:
+    a = nand_gate(x, sel)
+    b = nand_gate(sel, sel)
+    c = nand_gate(y, b)
+    return nand_gate(a, c)
 
 
-def mux(a: int, b: int, sel: int) -> int:
-    c = nand_gate(a, sel)
-    d = nand_gate(sel, sel)
-    e = nand_gate(b, d)
-    return nand_gate(c, e)
-
-
-def dmux(sel: int, data: int) -> tuple[int, int]:
+def dmux(sel: int, x: int) -> tuple[int, int]:
     not_sel = nand_gate(sel, sel)
-    not_sel_data = nand_gate(not_sel, data)
-    sel_data = nand_gate(sel, data)
-    a = nand_gate(not_sel_data, not_sel_data)
-    b = nand_gate(sel_data, sel_data)
+    not_sel_x = nand_gate(not_sel, x)
+    sel_x = nand_gate(sel, x)
+    a = nand_gate(not_sel_x, not_sel_x)
+    b = nand_gate(sel_x, sel_x)
     return a, b
 
 
 def x16_x(func, args):
-    print(args)
     return [func(args[0][idx]) for idx in range(16)]
 
 
@@ -56,17 +52,17 @@ def x16_xysel(func, args):
     return [func(args[0][idx], args[1][idx], args[2]) for idx in range(16)]
 
 
-def not16(a: list[int]) -> list[int]:
-    return x16_x(not_gate, [a])
+def not16(x: list[int]) -> list[int]:
+    return x16_x(not_gate, [x])
 
 
-def and16(a: list[int], b: list[int]) -> list[int]:
-    return x16_xy(and_gate, [a, b])
+def and16(x: list[int], y: list[int]) -> list[int]:
+    return x16_xy(and_gate, [x, y])
 
 
-def or16(a: list[int], b: list[int]) -> list[int]:
-    return x16_xy(or_gate, [a, b])
+def or16(x: list[int], y: list[int]) -> list[int]:
+    return x16_xy(or_gate, [x, y])
 
 
-def mux16(a: list[int], b: list[int], sel: int) -> list[int]:
-    return x16_xysel(mux, [a, b, sel])
+def mux16(x: list[int], y: list[int], sel: int) -> list[int]:
+    return x16_xysel(mux, [x, y, sel])
