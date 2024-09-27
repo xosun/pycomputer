@@ -1,6 +1,7 @@
+import os
 import csv
 import pytest
-from chips import (
+from src.chips import (
     nand_gate,
     and_gate,
     not_gate,
@@ -18,7 +19,8 @@ from chips import (
 
 
 def read_csv_data(csv_file):
-    with open(csv_file, "r") as file:
+    TEST_DATA_PATH = os.path.join(os.path.dirname(__file__), "test_data")
+    with open(os.path.join(TEST_DATA_PATH, csv_file), "r") as file:
         reader = csv.DictReader(file)
         return [
             [
@@ -61,7 +63,6 @@ def test_mux(a, b, sel, out):
 
 @pytest.mark.parametrize("x, sel, a, b", read_csv_data("dmux.csv"))
 def test_dmux(x, sel, a, b):
-    print(x, sel, [a, b])
     assert dmux(x, sel) == (a, b)
 
 
