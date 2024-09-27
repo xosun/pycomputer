@@ -29,55 +29,40 @@ def read_csv_data(csv_file):
         ]
 
 
-def test_nand_gate():
-    assert nand_gate(0, 0) == 1
-    assert nand_gate(0, 1) == 1
-    assert nand_gate(1, 0) == 1
-    assert nand_gate(1, 1) == 0
+@pytest.mark.parametrize("a, b, out", read_csv_data("nand.csv"))
+def test_nand_gate(a, b, out):
+    assert nand_gate(a, b) == out
 
 
-def test_and_gate():
-    assert and_gate(0, 0) == 0
-    assert and_gate(0, 1) == 0
-    assert and_gate(1, 0) == 0
-    assert and_gate(1, 1) == 1
+@pytest.mark.parametrize("a, b, out", read_csv_data("and.csv"))
+def test_and_gate(a, b, out):
+    assert and_gate(a, b) == out
 
 
-def test_not_gate():
-    assert not_gate(0) == 1
-    assert not_gate(1) == 0
+@pytest.mark.parametrize("a, out", read_csv_data("not.csv"))
+def test_not_gate(a, out):
+    assert not_gate(a) == out
 
 
-def test_or_gate():
-    assert or_gate(0, 0) == 0
-    assert or_gate(0, 1) == 1
-    assert or_gate(1, 0) == 1
-    assert or_gate(1, 1) == 1
+@pytest.mark.parametrize("a, b, out", read_csv_data("or.csv"))
+def test_or_gate(a, b, out):
+    assert or_gate(a, b) == out
 
 
-def test_xor_gate():
-    assert xor_gate(0, 0) == 0
-    assert xor_gate(1, 0) == 1
-    assert xor_gate(0, 1) == 1
-    assert xor_gate(1, 1) == 0
+@pytest.mark.parametrize("a, b, out", read_csv_data("xor.csv"))
+def test_xor_gate(a, b, out):
+    assert xor_gate(a, b) == out
 
 
-def test_mux():
-    assert mux(0, 0, 0) == 0
-    assert mux(0, 0, 1) == 0
-    assert mux(0, 1, 0) == 0
-    assert mux(0, 1, 1) == 1
-    assert mux(1, 0, 0) == 1
-    assert mux(1, 0, 1) == 0
-    assert mux(1, 1, 0) == 1
-    assert mux(1, 1, 1) == 1
+@pytest.mark.parametrize("a, b, sel, out", read_csv_data("mux.csv"))
+def test_mux(a, b, sel, out):
+    assert mux(a, b, sel) == out
 
 
-def test_dmux():
-    assert dmux(0, 0) == (0, 0)
-    assert dmux(0, 1) == (1, 0)
-    assert dmux(1, 0) == (0, 0)
-    assert dmux(1, 1) == (0, 1)
+@pytest.mark.parametrize("x, sel, a, b", read_csv_data("dmux.csv"))
+def test_dmux(x, sel, a, b):
+    print(x, sel, [a, b])
+    assert dmux(x, sel) == (a, b)
 
 
 @pytest.mark.parametrize("a, out", read_csv_data("not16.csv"))

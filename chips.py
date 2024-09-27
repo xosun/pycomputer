@@ -23,7 +23,7 @@ def mux(x: int, y: int, sel: int) -> int:
     return nand_gate(nand_gate(nand_gate(sel, sel), x), nand_gate(sel, y))
 
 
-def dmux(sel: int, x: int) -> tuple[int, int]:
+def dmux(x: int, sel: int) -> tuple[int, int]:
     nselx = nand_gate(nand_gate(sel, sel), x)
     selx = nand_gate(sel, x)
     return nand_gate(nselx, nselx), nand_gate(selx, selx)
