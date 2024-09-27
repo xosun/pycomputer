@@ -11,6 +11,7 @@ from chips import (
     and16,
     or16,
     mux16,
+    or8way,
 )
 
 
@@ -131,6 +132,27 @@ def test_or16(x, y, expected):
 )
 def test_mux16(x, y, sel, expected):
     assert mux16(x, y, sel) == expected
+
+
+@pytest.mark.parametrize(
+    "x, expected",
+    [
+        ([0, 0, 0, 0, 0, 0, 0, 0], 0),
+        ([1, 0, 0, 0, 0, 0, 0, 0], 1),
+        ([0, 1, 0, 0, 0, 0, 0, 0], 1),
+        ([0, 0, 1, 0, 0, 0, 0, 0], 1),
+        ([0, 0, 0, 1, 0, 0, 0, 0], 1),
+        ([0, 0, 0, 0, 1, 0, 0, 0], 1),
+        ([0, 0, 0, 0, 0, 1, 0, 0], 1),
+        ([0, 0, 0, 0, 0, 0, 1, 0], 1),
+        ([0, 0, 0, 0, 0, 0, 0, 1], 1),
+        ([1, 1, 1, 1, 1, 1, 1, 1], 1),
+        ([1, 0, 1, 0, 1, 0, 1, 0], 1),
+        ([0, 1, 0, 1, 0, 1, 0, 1], 1),
+    ],
+)
+def test_or8way(x, expected):
+    assert or8way(x) == expected
 
 
 if __name__ == "__main__":

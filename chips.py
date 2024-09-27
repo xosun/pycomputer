@@ -66,3 +66,14 @@ def or16(x: list[int], y: list[int]) -> list[int]:
 
 def mux16(x: list[int], y: list[int], sel: int) -> list[int]:
     return x16_xysel(mux, [x, y, sel])
+
+
+def or8way(x: list[int]) -> int:
+    a = or_gate(x[0], x[1])
+    b = or_gate(a, x[2])
+    c = or_gate(b, x[3])
+    d = or_gate(c, x[4])
+    e = or_gate(d, x[5])
+    f = or_gate(e, x[6])
+    g = or_gate(f, x[7])
+    return g
