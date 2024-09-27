@@ -3,8 +3,8 @@ def nand_gate(x: int, y: int) -> int:
 
 
 def and_gate(x: int, y: int) -> int:
-    xy_nand = nand_gate(x, y)
-    return nand_gate(xy_nand, xy_nand)
+    xy = nand_gate(x, y)
+    return nand_gate(xy, xy)
 
 
 def not_gate(x: int) -> int:
@@ -12,16 +12,16 @@ def not_gate(x: int) -> int:
 
 
 def or_gate(x: int, y: int) -> int:
-    xx_nand = nand_gate(x, x)
-    yy_nand = nand_gate(y, y)
-    return nand_gate(xx_nand, yy_nand)
+    xx = nand_gate(x, x)
+    yy = nand_gate(y, y)
+    return nand_gate(xx, yy)
 
 
 def xor_gate(x: int, y: int) -> int:
-    xy_nand = nand_gate(x, y)
-    x_and_xy_nand = nand_gate(x, xy_nand)
-    y_and_xy_nand = nand_gate(y, xy_nand)
-    return nand_gate(x_and_xy_nand, y_and_xy_nand)
+    xy = nand_gate(x, y)
+    x_xy = nand_gate(x, xy)
+    y_xy = nand_gate(y, xy)
+    return nand_gate(x_xy, y_xy)
 
 
 def mux(x: int, y: int, sel: int) -> int:
@@ -32,10 +32,10 @@ def mux(x: int, y: int, sel: int) -> int:
 
 
 def dmux(sel: int, x: int) -> tuple[int, int]:
-    not_sel = nand_gate(sel, sel)
-    not_sel_x = nand_gate(not_sel, x)
+    nsel = nand_gate(sel, sel)
+    nsel_x = nand_gate(nsel, x)
     sel_x = nand_gate(sel, x)
-    a = nand_gate(not_sel_x, not_sel_x)
+    a = nand_gate(nsel_x, nsel_x)
     b = nand_gate(sel_x, sel_x)
     return a, b
 
