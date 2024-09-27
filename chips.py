@@ -43,55 +43,30 @@ def dmux(sel: int, data: int) -> tuple[int, int]:
     return a, b
 
 
-def validate16(func):
-    def wrapper(data: list[int]) -> list[int]:
-        if len(data) != 16:
-            raise ValueError("Input list must be exactly 16 integers long")
-        return func(data)
-
-    return wrapper
+def x16_x(func, args):
+    print(args)
+    return [func(args[0][idx]) for idx in range(16)]
 
 
-def validate16x2(func):
-    def wrapper(a: list[int], b: list[int], sel: int = 0) -> list[int]:
-        if len(a) != 16 or len(b) != 16:
-            raise ValueError("Input list must be exactly 16 integers long")
-        num_params = len(inspect.signature(func).parameters)
-        if num_params == 2:
-            return func(a, b)
-        else:
-            return func(a, b, sel)
-
-    return wrapper
+def x16_xy(func, args):
+    return [func(args[0][idx], args[1][idx]) for idx in range(16)]
 
 
-@validate16
-def not16(data: list[int]) -> list[int]:
-    output = []
-    for bit in data:
-        output.append(not_gate(bit))
-    return output
+def x16_xysel(func, args):
+    return [func(args[0][idx], args[1][idx], args[2]) for idx in range(16)]
 
 
-@validate16x2
+def not16(a: list[int]) -> list[int]:
+    return x16_x(not_gate, [a])
+
+
 def and16(a: list[int], b: list[int]) -> list[int]:
-    output = []
-    for idx in range(len(a)):
-        output.append(and_gate(a[idx], b[idx]))
-    return output
+    return x16_xy(and_gate, [a, b])
 
 
-@validate16x2
 def or16(a: list[int], b: list[int]) -> list[int]:
-    output = []
-    for idx in range(len(a)):
-        output.append(or_gate(a[idx], b[idx]))
-    return output
+    return x16_xy(or_gate, [a, b])
 
 
-@validate16x2
 def mux16(a: list[int], b: list[int], sel: int) -> list[int]:
-    output = []
-    for idx in range(len(a)):
-        output.append(mux(a[idx], b[idx], sel))
-    return output
+    return x16_xysel(mux, [a, b, sel])

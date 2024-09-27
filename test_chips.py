@@ -133,42 +133,5 @@ def test_mux16(a, b, sel, expected):
     assert mux16(a, b, sel) == expected
 
 
-@pytest.fixture(params=[15, 17])
-def invalid_length(request):
-    return request.param
-
-
-def assert_invalid_length(func, length: int):
-    with pytest.raises(ValueError) as excinfo:
-        func([0] * length)
-    assert str(excinfo.value) == "Input list must be exactly 16 integers long"
-
-
-def assert_invalid_length_x2(func, length: int):
-    with pytest.raises(ValueError) as excinfo:
-        func([0] * length, [0] * length)
-    assert str(excinfo.value) == "Input list must be exactly 16 integers long"
-
-
-@pytest.mark.usefixtures("invalid_length")
-def test_not16_invalid_length(invalid_length):
-    assert_invalid_length(not16, invalid_length)
-
-
-@pytest.mark.usefixtures("invalid_length")
-def test_and16_invalid_length(invalid_length):
-    assert_invalid_length_x2(and16, invalid_length)
-
-
-@pytest.mark.usefixtures("invalid_length")
-def test_or16_invalid_length(invalid_length):
-    assert_invalid_length_x2(or16, invalid_length)
-
-
-@pytest.mark.usefixtures("invalid_length")
-def test_mux16_invalid_length(invalid_length):
-    assert_invalid_length_x2(mux16, invalid_length)
-
-
 if __name__ == "__main__":
     pytest.main()
