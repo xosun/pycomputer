@@ -2,18 +2,18 @@
 
 ## 1. Boolean Logic
 
-- Nand
-- Not
-- And
-- Or
-- Xor
-- Mux
-- Dmux
-- Not16
-- And16
-- Or16
-- Mux16
-- Or8Way
+- [x] Nand
+- [x] Not
+- [x] And
+- [x] Or
+- [x] Xor
+- [x] Mux
+- [x] Dmux
+- [x] Not16
+- [x] And16
+- [x] Or16
+- [x] Mux16
+- [x] Or8Way
 - Mux4Way16
 - Mux8Way16
 - Dmux4Way
