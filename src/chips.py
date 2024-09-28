@@ -88,14 +88,14 @@ def dmux8way(x, sel: list[int]) -> tuple[int]:
     return dmux(a00, sel[2]) + dmux(b00, sel[2]) + dmux(c00, sel[2]) + dmux(d00, sel[2])
 
 
-def halfadder(a: int, b: int) -> tuple[int]:
+def half_adder(a: int, b: int) -> tuple[int]:
     sum = xor_gate(a, b)
     carry = and_gate(a, b)
     return sum, carry
 
 
-def fulladder(a: int, b: int, c: int) -> tuple[int]:
-    ab, cab = halfadder(a, b)
-    sum, s = halfadder(c, ab)
+def full_adder(a: int, b: int, c: int) -> tuple[int]:
+    ab, cab = half_adder(a, b)
+    sum, s = half_adder(c, ab)
     carry = or_gate(cab, s)
     return sum, carry

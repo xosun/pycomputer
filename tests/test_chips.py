@@ -18,8 +18,8 @@ from src.chips import (
     mux8way16,
     dmux4way,
     dmux8way,
-    halfadder,
-    fulladder,
+    half_adder,
+    full_adder,
 )
 
 
@@ -120,14 +120,14 @@ def test_dmux8way(x, sel, a, b, c, d, e, f, g, h):
     assert dmux8way(x, sel) == (a, b, c, d, e, f, g, h)
 
 
-@pytest.mark.parametrize("a, b, sum, carry", read_csv_data("halfadder.csv"))
-def test_halfadder(a, b, sum, carry):
-    assert halfadder(a, b) == (sum, carry)
+@pytest.mark.parametrize("a, b, sum, carry", read_csv_data("half_adder.csv"))
+def test_half_adder(a, b, sum, carry):
+    assert half_adder(a, b) == (sum, carry)
 
 
-@pytest.mark.parametrize("a, b, c, sum, carry", read_csv_data("fulladder.csv"))
-def test_fulladder(a, b, c, sum, carry):
-    assert fulladder(a, b, c) == (sum, carry)
+@pytest.mark.parametrize("a, b, c, sum, carry", read_csv_data("full_adder.csv"))
+def test_full_adder(a, b, c, sum, carry):
+    assert full_adder(a, b, c) == (sum, carry)
 
 
 if __name__ == "__main__":

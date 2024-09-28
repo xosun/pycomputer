@@ -22,7 +22,7 @@
 ## 2. Boolean Arithmetic
 
 - [x] HalfAdder
-- FullAdder
+- [x] FullAdder
 - Add16
 - Inc16
 - ALU
