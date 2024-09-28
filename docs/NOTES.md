@@ -14,8 +14,8 @@
 - [x] Or16
 - [x] Mux16
 - [x] Or8Way
-- Mux4Way16
-- Mux8Way16
+- [x] Mux4Way16
+- [x] Mux8Way16
 - Dmux4Way
 - Dmux8Way
 
