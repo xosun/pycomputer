@@ -21,7 +21,7 @@
 
 ## 2. Boolean Arithmetic
 
-- HalfAdder
+- [x] HalfAdder
 - FullAdder
 - Add16
 - Inc16

@@ -54,7 +54,7 @@ def or8way(x: list[int]) -> int:
 
 def mux4way16(
     a: list[int], b: list[int], c: list[int], d: list[int], sel: list[int]
-) -> list[int]:
+) -> tuple[int]:
     return mux16(mux16(a, b, sel[1]), mux16(c, d, sel[1]), sel[0])
 
 
@@ -68,7 +68,7 @@ def mux8way16(
     g: list[int],
     h: list[int],
     sel: list[int],
-) -> list[int]:
+) -> tuple[int]:
     return mux16(
         mux16(mux16(a, b, sel[2]), mux16(c, d, sel[2]), sel[1]),
         mux16(mux16(e, f, sel[2]), mux16(g, h, sel[2]), sel[1]),
@@ -76,13 +76,19 @@ def mux8way16(
     )
 
 
-def dmux4way(x, sel: list[int]):
+def dmux4way(x, sel: list[int]) -> tuple[int]:
     a0, b0 = dmux(x, sel[0])
     return dmux(a0, sel[1]) + dmux(b0, sel[1])
 
 
-def dmux8way(x, sel: list[int]):
+def dmux8way(x, sel: list[int]) -> tuple[int]:
     a0, b0 = dmux(x, sel[0])
     a00, b00 = dmux(a0, sel[1])
     c00, d00 = dmux(b0, sel[1])
     return dmux(a00, sel[2]) + dmux(b00, sel[2]) + dmux(c00, sel[2]) + dmux(d00, sel[2])
+
+
+def halfadder(a: int, b: int) -> tuple[int]:
+    sum = xor_gate(a, b)
+    carry = and_gate(a, b)
+    return sum, carry
