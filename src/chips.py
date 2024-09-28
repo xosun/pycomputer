@@ -56,3 +56,21 @@ def mux4way16(
     a: list[int], b: list[int], c: list[int], d: list[int], sel: list[int]
 ) -> list[int]:
     return mux16(mux16(a, b, sel[1]), mux16(c, d, sel[1]), sel[0])
+
+
+def mux8way16(
+    a: list[int],
+    b: list[int],
+    c: list[int],
+    d: list[int],
+    e: list[int],
+    f: list[int],
+    g: list[int],
+    h: list[int],
+    sel: list[int],
+) -> list[int]:
+    return mux16(
+        mux16(mux16(a, b, sel[2]), mux16(c, d, sel[2]), sel[1]),
+        mux16(mux16(e, f, sel[2]), mux16(g, h, sel[2]), sel[1]),
+        sel[0],
+    )
