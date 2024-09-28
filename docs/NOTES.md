@@ -16,8 +16,8 @@
 - [x] Or8Way
 - [x] Mux4Way16
 - [x] Mux8Way16
-- Dmux4Way
-- Dmux8Way
+- [x] Dmux4Way
+- [x] Dmux8Way
 
 ## 2. Boolean Arithmetic
 
