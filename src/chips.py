@@ -314,3 +314,20 @@ def add16(a: list[int], b: list[int]) -> list[int]:
         sum14,
         sum15,
     ]
+
+
+def inc16(a: list[int]) -> list[int]:
+    """Increments a 16-bit integer represented as a list of integers by 1.
+
+    Example:
+        >>> inc16([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+
+    Args:
+        a: A list of 16 integers representing the input.
+
+    Returns:
+        A list of 16 integers representing the incremented value.
+    """
+    one = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+    return add16(a, one)
