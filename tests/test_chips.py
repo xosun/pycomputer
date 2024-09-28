@@ -22,6 +22,7 @@ from src.chips import (
     full_adder,
     add16,
     inc16,
+    alu,
 )
 
 
@@ -141,6 +142,10 @@ def test_add16(a, b, out):
 def test_add16(a, out):
     assert inc16(a) == out
 
+
+@pytest.mark.parametrize("x, y, zx, nx, zy, ny, f, no, out, zr, ng", read_csv_data("alu.csv"))
+def test_alu(x, y, zx, nx, zy, ny, f, no, out, zr, ng):
+    assert alu(x, y, zx, nx, zy, ny, f, no) == (out, zr, ng)
 
 if __name__ == "__main__":
     pytest.main()

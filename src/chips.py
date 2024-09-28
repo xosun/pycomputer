@@ -505,3 +505,97 @@ def inc16(a: list[int]) -> list[int]:
     """
     one = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
     return add16(a, one)
+
+def alu(x: list[int], y: list[int], zx: int, nx: int, zy: int, ny: int, f: int, no: int) -> tuple[list[int], int, int]:
+    """
+    Implements an Arithmetic Logic Unit (ALU) for 16-bit operations.
+
+    Args:
+        x: A 16-integer input operand.
+        y: A 16-integer input operand.
+        zx: Zero x?
+        nx: Negate y?
+        zy: Zero y?
+        ny: Negate x?
+        f: Function select.
+        no: Negate the output?
+
+    Returns:
+        A tuple containing:
+            - The 16-bit output result.
+            - The zero flag (1 if output is zero, 0 otherwise).
+            - The negative flag (1 if output is negative, 0 otherwise).
+
+    **Control Signal Functions:**
+
+    - **zx = 1:** Sets x to 0.
+    - **nx = 1:** Negates y.
+    - **zy = 1:** Sets y to 0.
+    - **ny = 1:** Negates y.
+    - **f = 0:** Performs addition (x + y).
+    - **f = 1:** Performs AND operation (x & y).
+    - **no = 1:** Negates the output.
+
+    Examples:
+        >>> x = [1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0]
+        >>> y = [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]
+        >>> zx = 0
+        >>> nx = 0
+        >>> zy = 0
+        >>> ny = 0
+        >>> f = 1
+        >>> no = 0
+        >>> output, zr, ng = alu(x, y, zx, nx, zy, ny, f, no)
+        >>> print(output)
+        [1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1]
+
+        >>> zx = 1
+        >>> output, zr, ng = alu(x, y, zx, nx, zy, ny, f, no)
+        >>> print(output)
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        >>> nx = 1
+        >>> output, zr, ng = alu(x, y, zx, nx, zy, ny, f, no)
+        >>> print(output)
+        [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1]
+    """
+    # Zero the x input
+    zdx = mux16(x, [0] * 16, zx)
+
+    # Negate the x input
+    notx = not16(zdx)
+
+    # Choose x or notx based on nx
+    ndx = mux16(zdx, notx, nx)
+
+    # Zero the y input
+    zdy = mux16(y, [0] * 16, zy)
+
+    # Negate the y input
+    noty = not16(zdy)
+
+    # Choose y or noty based on ny
+    ndy = mux16(zdy, noty, ny)
+
+    # Perform addition or AND operation based on f
+    if f == 1:
+        fxy = add16(ndx, ndy)
+    else:
+        fxy = and16(ndx, ndy)
+
+    # Negate the output if no is 1
+    nfxy = not16(fxy)
+
+    # Choose fxy or nfxy based on no
+    oo = mux16(fxy, nfxy, no)
+
+    # Calculate zero flag
+    zr = not16(or16(oo, [0] * 16))[0]
+
+    # Calculate negative flag
+    ng = oo[15]
+
+    # Final output
+    output = oo
+
+    return output, zr, ng
