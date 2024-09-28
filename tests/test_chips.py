@@ -19,6 +19,7 @@ from src.chips import (
     dmux4way,
     dmux8way,
     halfadder,
+    fulladder,
 )
 
 
@@ -122,6 +123,11 @@ def test_dmux8way(x, sel, a, b, c, d, e, f, g, h):
 @pytest.mark.parametrize("a, b, sum, carry", read_csv_data("halfadder.csv"))
 def test_halfadder(a, b, sum, carry):
     assert halfadder(a, b) == (sum, carry)
+
+
+@pytest.mark.parametrize("a, b, c, sum, carry", read_csv_data("fulladder.csv"))
+def test_fulladder(a, b, c, sum, carry):
+    assert fulladder(a, b, c) == (sum, carry)
 
 
 if __name__ == "__main__":

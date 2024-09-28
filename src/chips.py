@@ -92,3 +92,10 @@ def halfadder(a: int, b: int) -> tuple[int]:
     sum = xor_gate(a, b)
     carry = and_gate(a, b)
     return sum, carry
+
+
+def fulladder(a: int, b: int, c: int) -> tuple[int]:
+    ab, cab = halfadder(a, b)
+    sum, s = halfadder(c, ab)
+    carry = or_gate(cab, s)
+    return sum, carry
