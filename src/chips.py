@@ -7,6 +7,16 @@ def nand_gate(a: int, b: int) -> int:
 
     Returns:
         The output bit of the NAND gate.
+
+    Examples:
+        >>> nand_gate(0, 0)
+        1
+        >>> nand_gate(0, 1)
+        1
+        >>> nand_gate(1, 0)
+        1
+        >>> nand_gate(1, 1)
+        0
     """
     return 1 if a == 0 or b == 0 else 0
 
@@ -20,6 +30,16 @@ def and_gate(a: int, b: int) -> int:
 
     Returns:
         The output bit of the AND gate.
+
+    Examples:
+        >>> and_gate(0, 0)
+        0
+        >>> and_gate(0, 1)
+        0
+        >>> and_gate(1, 0)
+        0
+        >>> and_gate(1, 1)
+        1
     """
     return nand_gate(nand_gate(a, b), nand_gate(a, b))
 
@@ -32,6 +52,12 @@ def not_gate(a: int) -> int:
 
     Returns:
         The output bit of the NOT gate.
+
+    Examples:
+        >>> not_gate(0)
+        1
+        >>> not_gate(1)
+        0
     """
     return nand_gate(a, a)
 
@@ -45,6 +71,16 @@ def or_gate(a: int, b: int) -> int:
 
     Returns:
         The output bit of the OR gate.
+
+    Examples:
+        >>> or_gate(0, 0)
+        0
+        >>> or_gate(0, 1)
+        1
+        >>> or_gate(1, 0)
+        1
+        >>> or_gate(1, 1)
+        1
     """
     return nand_gate(nand_gate(a, a), nand_gate(b, b))
 
@@ -58,6 +94,16 @@ def xor_gate(a: int, b: int) -> int:
 
     Returns:
         The output bit of the XOR gate.
+
+    Examples:
+        >>> xor_gate(0, 0)
+        0
+        >>> xor_gate(0, 1)
+        1
+        >>> xor_gate(1, 0)
+        1
+        >>> xor_gate(1, 1)
+        0
     """
     ab = nand_gate(a, b)
     return nand_gate(nand_gate(a, ab), nand_gate(b, ab))
@@ -73,6 +119,16 @@ def mux(a: int, b: int, sel: int) -> int:
 
     Returns:
         The output bit of the multiplexer.
+
+    Examples:
+        >>> mux(0, 1, 0)
+        0
+        >>> mux(0, 1, 1)
+        1
+        >>> mux(1, 0, 0)
+        1
+        >>> mux(1, 0, 1)
+        0
     """
     return nand_gate(nand_gate(nand_gate(sel, sel), a), nand_gate(sel, b))
 
@@ -86,6 +142,16 @@ def dmux(a: int, sel: int) -> tuple[int, int]:
 
     Returns:
         A tuple containing the two output bits of the demultiplexer.
+
+    Examples:
+        >>> dmux(0, 0)
+        (0, 0)
+        >>> dmux(0, 1)
+        (0, 0)
+        >>> dmux(1, 0)
+        (1, 0)
+        >>> dmux(1, 1)
+        (0, 1)
     """
     nsela = nand_gate(nand_gate(sel, sel), a)
     sela = nand_gate(sel, a)
@@ -100,6 +166,10 @@ def not16(a: list[int]) -> list[int]:
 
     Returns:
         A list of 16 integers representing the output.
+
+    Example:
+        >>> not16([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     """
     return [not_gate(a[i]) for i in range(16)]
 
@@ -113,6 +183,11 @@ def and16(a: list[int], b: list[int]) -> list[int]:
 
     Returns:
         A list of 16 integers representing the output.
+
+    Example:
+        >>> and16([1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+                  [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     """
     return [and_gate(a[i], b[i]) for i in range(16)]
 
@@ -126,6 +201,11 @@ def or16(a: list[int], b: list[int]) -> list[int]:
 
     Returns:
         A list of 16 integers representing the output.
+
+    Example:
+        >>> or16([1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+                 [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     """
     return [or_gate(a[i], b[i]) for i in range(16)]
 
@@ -140,6 +220,12 @@ def mux16(a: list[int], b: list[int], sel: int) -> list[int]:
 
     Returns:
         A list of 16 integers representing the output.
+
+    Example:
+        >>> mux16([1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                  1)
+        [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     """
     return [mux(a[i], b[i], sel) for i in range(16)]
 
@@ -152,6 +238,28 @@ def or8way(a: list[int]) -> int:
 
     Returns:
         The output bit of the 8-way OR operation.
+
+    Examples:
+        >>> or8way([0, 0, 0, 0, 0, 0, 0, 0])
+        0
+        >>> or8way([1, 0, 0, 0, 0, 0, 0, 0])
+        1
+        >>> or8way([0, 1, 0, 0, 0, 0, 0, 0])
+        1
+        >>> or8way([0, 0, 1, 0, 0, 0, 0, 0])
+        1
+        >>> or8way([0, 0, 0, 1, 0, 0, 0, 0])
+        1
+        >>> or8way([0, 0, 0, 0, 1, 0, 0, 0])
+        1
+        >>> or8way([0, 0, 0, 0, 0, 1, 0, 0])
+        1
+        >>> or8way([0, 0, 0, 0, 0, 0, 1, 0])
+        1
+        >>> or8way([0, 0, 0, 0, 0, 0, 0, 1])
+        1
+        >>> or8way([1, 1, 1, 1, 1, 1, 1, 1])
+        1
     """
     out = a[0]
     for i in range(1, len(a)):
@@ -173,6 +281,15 @@ def mux4way16(
 
     Returns:
         A tuple of 16 integers representing the output.
+
+    Example:
+        >>> a = [1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0]
+        >>> b = [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]
+        >>> c = [1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]
+        >>> d = [0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0]
+        >>> sel = [1, 0]
+        >>> mux4way16(a, b, c, d, sel)
+        [1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]
     """
     return mux16(mux16(a, b, sel[1]), mux16(c, d, sel[1]), sel[0])
 
@@ -191,11 +308,24 @@ def mux8way16(
     """Performs an 8-way 16-bit multiplexer operation.
 
     Args:
-        a, b, c, d, e, f, g, h: Lists of 16 integers representing the inputs.
+        a - h: Lists of 16 integers representing the inputs.
         sel: A list of 3 integers representing the select bits.
 
     Returns:
         A tuple of 16 integers representing the output.
+
+    Example:
+        >>> a = [1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0]
+        >>> b = [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]
+        >>> c = [1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]
+        >>> d = [0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0]
+        >>> e = [1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0]
+        >>> f = [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]
+        >>> g = [1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]
+        >>> h = [0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0]
+        >>> sel = [1, 1, 0]
+        >>> mux8way16(a, b, c, d, e, f, g, h, sel)
+        [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]
     """
     return mux16(
         mux16(mux16(a, b, sel[2]), mux16(c, d, sel[2]), sel[1]),
@@ -213,6 +343,10 @@ def dmux4way(x, sel: list[int]) -> tuple[int]:
 
     Returns:
         A tuple of 4 integers representing the outputs.
+
+    Example:
+        >>> dmux4way(1, [0, 1])
+        (0, 1, 0, 0)
     """
     a0, b0 = dmux(x, sel[0])
     return dmux(a0, sel[1]) + dmux(b0, sel[1])
@@ -227,6 +361,10 @@ def dmux8way(x, sel: list[int]) -> tuple[int]:
 
     Returns:
         A tuple of 8 integers representing the outputs.
+
+    Example:
+        >>> dmux8way(1, [1, 0, 1])
+        (0, 0, 0, 0, 0, 1, 0, 0)
     """
     a0, b0 = dmux(x, sel[0])
     a00, b00 = dmux(a0, sel[1])
@@ -243,6 +381,16 @@ def half_adder(a: int, b: int) -> tuple[int]:
 
     Returns:
         A tuple containing the sum and carry bits of the half-adder.
+
+    Examples:
+        >>> half_adder(0, 0)
+        (0, 0)
+        >>> half_adder(0, 1)
+        (1, 0)
+        >>> half_adder(1, 0)
+        (1, 0)
+        >>> half_adder(1, 1)
+        (0, 1)
     """
     sum = xor_gate(a, b)
     carry = and_gate(a, b)
@@ -259,6 +407,22 @@ def full_adder(a: int, b: int, c: int) -> tuple[int]:
 
     Returns:
         A tuple containing the sum and carry bits of the full-adder.
+
+    Examples:
+        >>> full_adder(0, 0, 0)
+        (0, 0)
+        >>> full_adder(0, 0, 1)
+        (1, 0)
+        >>> full_adder(1, 0, 0)
+        (1, 0)
+        >>> full_adder(1, 0, 1)
+        (0, 1)
+        >>> full_adder(0, 1, 1)
+        (0, 1)
+        >>> full_adder(1, 1, 0)
+        (0, 1)
+        >>> full_adder(1, 1, 1)
+        (1, 1)
     """
     ab, cab = half_adder(a, b)
     sum, s = half_adder(c, ab)
@@ -270,6 +434,10 @@ def full_adder(a: int, b: int, c: int) -> tuple[int]:
 # and propagate the carry to the more significant bits. This is because
 # the carry from a previous bit can affect the sum of the current bit.
 # That is why we move from the end of the inputs to the start as we add.
+#
+# NOTE: The highest number you can make in binary with a length of 16 is 2^16 - 1.
+#       This is equivalent to 65,535 in decimal.
+#
 def add16(a: list[int], b: list[int]) -> list[int]:
     """Performs a 16-bit addition operation on two lists of integers.
 
@@ -279,6 +447,12 @@ def add16(a: list[int], b: list[int]) -> list[int]:
 
     Returns:
         A list of 16 integers representing the sum.
+
+    Example:
+        >>> a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+        >>> b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+        >>> add16(a, b)
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
     """
     sum15, carry15 = half_adder(a[15], b[15])
     sum14, carry14 = full_adder(a[14], b[14], carry15)
@@ -319,15 +493,15 @@ def add16(a: list[int], b: list[int]) -> list[int]:
 def inc16(a: list[int]) -> list[int]:
     """Increments a 16-bit integer represented as a list of integers by 1.
 
-    Example:
-        >>> inc16([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
-
     Args:
         a: A list of 16 integers representing the input.
 
     Returns:
         A list of 16 integers representing the incremented value.
+
+    Example:
+        >>> inc16([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
     """
     one = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
     return add16(a, one)
