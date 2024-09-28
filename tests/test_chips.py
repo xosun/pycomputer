@@ -16,6 +16,8 @@ from src.chips import (
     or8way,
     mux4way16,
     mux8way16,
+    dmux4way,
+    dmux8way,
 )
 
 
@@ -102,6 +104,18 @@ def test_mux4way16(a, b, c, d, sel, out):
 )
 def test_mux8way16(a, b, c, d, e, f, g, h, sel, out):
     assert mux8way16(a, b, c, d, e, f, g, h, sel) == out
+
+
+@pytest.mark.parametrize("x, sel, a, b, c, d", read_csv_data("dmux4way.csv"))
+def test_dmux4way(x, sel, a, b, c, d):
+    assert dmux4way(x, sel) == (a, b, c, d)
+
+
+@pytest.mark.parametrize(
+    "x, sel, a, b, c, d, e, f, g, h", read_csv_data("dmux8way.csv")
+)
+def test_dmux8way(x, sel, a, b, c, d, e, f, g, h):
+    assert dmux8way(x, sel) == (a, b, c, d, e, f, g, h)
 
 
 if __name__ == "__main__":

@@ -74,3 +74,21 @@ def mux8way16(
         mux16(mux16(e, f, sel[2]), mux16(g, h, sel[2]), sel[1]),
         sel[0],
     )
+
+
+def dmux4way(x, sel: list[int]):
+    a0, b0 = dmux(x, sel[0])
+    a, b = dmux(a0, sel[1])
+    c, d = dmux(b0, sel[1])
+    return a, b, c, d
+
+
+def dmux8way(x, sel: list[int]):
+    a0, b0 = dmux(x, sel[0])
+    a00, b00 = dmux(a0, sel[1])
+    c00, d00 = dmux(b0, sel[1])
+    a, b = dmux(a00, sel[2])
+    c, d = dmux(b00, sel[2])
+    e, f = dmux(c00, sel[2])
+    g, h = dmux(d00, sel[2])
+    return a, b, c, d, e, f, g, h
