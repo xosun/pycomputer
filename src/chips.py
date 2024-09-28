@@ -55,4 +55,4 @@ def or8way(x: list[int]) -> int:
 def mux4way16(
     a: list[int], b: list[int], c: list[int], d: list[int], sel: list[int]
 ) -> list[int]:
-    return mux16(mux16(a, b, sel[0]), mux16(c, d, sel[0]), sel[1])
+    return mux16(mux16(a, b, sel[1]), mux16(c, d, sel[1]), sel[0])
