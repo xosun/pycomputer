@@ -506,7 +506,10 @@ def inc16(a: list[int]) -> list[int]:
     one = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
     return add16(a, one)
 
-def alu(x: list[int], y: list[int], zx: int, nx: int, zy: int, ny: int, f: int, no: int) -> tuple[list[int], int, int]:
+
+def alu(
+    x: list[int], y: list[int], zx: int, nx: int, zy: int, ny: int, f: int, no: int
+) -> tuple[list[int], int, int]:
     """
     Implements an Arithmetic Logic Unit (ALU) for 16-bit operations.
 
