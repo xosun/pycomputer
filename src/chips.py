@@ -1,54 +1,54 @@
-def nand_gate(x: int, y: int) -> int:
-    return 1 if x == 0 or y == 0 else 0
+def nand_gate(a: int, b: int) -> int:
+    return 1 if a == 0 or b == 0 else 0
 
 
-def and_gate(x: int, y: int) -> int:
-    return nand_gate(nand_gate(x, y), nand_gate(x, y))
+def and_gate(a: int, b: int) -> int:
+    return nand_gate(nand_gate(a, b), nand_gate(a, b))
 
 
-def not_gate(x: int) -> int:
-    return nand_gate(x, x)
+def not_gate(a: int) -> int:
+    return nand_gate(a, a)
 
 
-def or_gate(x: int, y: int) -> int:
-    return nand_gate(nand_gate(x, x), nand_gate(y, y))
+def or_gate(a: int, b: int) -> int:
+    return nand_gate(nand_gate(a, a), nand_gate(b, b))
 
 
-def xor_gate(x: int, y: int) -> int:
-    xy = nand_gate(x, y)
-    return nand_gate(nand_gate(x, xy), nand_gate(y, xy))
+def xor_gate(a: int, b: int) -> int:
+    ab = nand_gate(a, b)
+    return nand_gate(nand_gate(a, ab), nand_gate(b, ab))
 
 
-def mux(x: int, y: int, sel: int) -> int:
-    return nand_gate(nand_gate(nand_gate(sel, sel), x), nand_gate(sel, y))
+def mux(a: int, b: int, sel: int) -> int:
+    return nand_gate(nand_gate(nand_gate(sel, sel), a), nand_gate(sel, b))
 
 
-def dmux(x: int, sel: int) -> tuple[int, int]:
-    nselx = nand_gate(nand_gate(sel, sel), x)
-    selx = nand_gate(sel, x)
-    return nand_gate(nselx, nselx), nand_gate(selx, selx)
+def dmux(a: int, sel: int) -> tuple[int, int]:
+    nsela = nand_gate(nand_gate(sel, sel), a)
+    sela = nand_gate(sel, a)
+    return nand_gate(nsela, nsela), nand_gate(sela, sela)
 
 
-def not16(x: list[int]) -> list[int]:
-    return [not_gate(x[i]) for i in range(16)]
+def not16(a: list[int]) -> list[int]:
+    return [not_gate(a[i]) for i in range(16)]
 
 
-def and16(x: list[int], y: list[int]) -> list[int]:
-    return [and_gate(x[i], y[i]) for i in range(16)]
+def and16(a: list[int], b: list[int]) -> list[int]:
+    return [and_gate(a[i], b[i]) for i in range(16)]
 
 
-def or16(x: list[int], y: list[int]) -> list[int]:
-    return [or_gate(x[i], y[i]) for i in range(16)]
+def or16(a: list[int], b: list[int]) -> list[int]:
+    return [or_gate(a[i], b[i]) for i in range(16)]
 
 
-def mux16(x: list[int], y: list[int], sel: int) -> list[int]:
-    return [mux(x[i], y[i], sel) for i in range(16)]
+def mux16(a: list[int], b: list[int], sel: int) -> list[int]:
+    return [mux(a[i], b[i], sel) for i in range(16)]
 
 
-def or8way(x: list[int]) -> int:
-    out = x[0]
-    for i in range(1, len(x)):
-        out = or_gate(out, x[i])
+def or8way(a: list[int]) -> int:
+    out = a[0]
+    for i in range(1, len(a)):
+        out = or_gate(out, a[i])
     return out
 
 
@@ -102,21 +102,37 @@ def full_adder(a: int, b: int, c: int) -> tuple[int]:
 
 
 def add16(a: list[int], b: list[int]) -> list[int]:
-    out = [0] * 16
-    out[15], c = half_adder(a[15], b[15])
-    out[14], d = full_adder(a[14], b[14], c)
-    out[13], e = full_adder(a[13], b[13], d)
-    out[12], f = full_adder(a[12], b[12], e)
-    out[11], g = full_adder(a[11], b[11], f)
-    out[10], h = full_adder(a[10], b[10], g)
-    out[9], i = full_adder(a[9], b[9], h)
-    out[8], j = full_adder(a[8], b[8], i)
-    out[7], k = full_adder(a[7], b[7], j)
-    out[6], l = full_adder(a[6], b[6], k)
-    out[5], m = full_adder(a[5], b[5], l)
-    out[4], n = full_adder(a[4], b[4], m)
-    out[3], o = full_adder(a[3], b[3], n)
-    out[2], p = full_adder(a[2], b[2], o)
-    out[1], q = full_adder(a[1], b[1], p)
-    out[0], _ = full_adder(a[0], b[0], q)
-    return out
+    sum15, carry15 = half_adder(a[15], b[15])
+    sum14, carry14 = full_adder(a[14], b[14], carry15)
+    sum13, carry13 = full_adder(a[13], b[13], carry14)
+    sum12, carry12 = full_adder(a[12], b[12], carry13)
+    sum11, carry11 = full_adder(a[11], b[11], carry12)
+    sum10, carry10 = full_adder(a[10], b[10], carry11)
+    sum9, carry9 = full_adder(a[9], b[9], carry10)
+    sum8, carry8 = full_adder(a[8], b[8], carry9)
+    sum7, carry7 = full_adder(a[7], b[7], carry8)
+    sum6, carry6 = full_adder(a[6], b[6], carry7)
+    sum5, carry5 = full_adder(a[5], b[5], carry6)
+    sum4, carry4 = full_adder(a[4], b[4], carry5)
+    sum3, carry3 = full_adder(a[3], b[3], carry4)
+    sum2, carry2 = full_adder(a[2], b[2], carry3)
+    sum1, carry1 = full_adder(a[1], b[1], carry2)
+    sum0, _ = full_adder(a[0], b[0], carry1)
+    return [
+        sum0,
+        sum1,
+        sum2,
+        sum3,
+        sum4,
+        sum5,
+        sum6,
+        sum7,
+        sum8,
+        sum9,
+        sum10,
+        sum11,
+        sum12,
+        sum13,
+        sum14,
+        sum15,
+    ]
