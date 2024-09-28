@@ -136,9 +136,11 @@ def test_full_adder(a, b, c, sum, carry):
 def test_add16(a, b, out):
     assert add16(a, b) == out
 
+
 @pytest.mark.parametrize("a, out", read_csv_data("inc16.csv"))
 def test_add16(a, out):
     assert inc16(a) == out
+
 
 if __name__ == "__main__":
     pytest.main()
