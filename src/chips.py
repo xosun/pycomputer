@@ -99,3 +99,24 @@ def full_adder(a: int, b: int, c: int) -> tuple[int]:
     sum, s = half_adder(c, ab)
     carry = or_gate(cab, s)
     return sum, carry
+
+
+def add16(a: list[int], b: list[int]) -> list[int]:
+    out = [0] * 16
+    out[15], c = half_adder(a[15], b[15])
+    out[14], d = full_adder(a[14], b[14], c)
+    out[13], e = full_adder(a[13], b[13], d)
+    out[12], f = full_adder(a[12], b[12], e)
+    out[11], g = full_adder(a[11], b[11], f)
+    out[10], h = full_adder(a[10], b[10], g)
+    out[9], i = full_adder(a[9], b[9], h)
+    out[8], j = full_adder(a[8], b[8], i)
+    out[7], k = full_adder(a[7], b[7], j)
+    out[6], l = full_adder(a[6], b[6], k)
+    out[5], m = full_adder(a[5], b[5], l)
+    out[4], n = full_adder(a[4], b[4], m)
+    out[3], o = full_adder(a[3], b[3], n)
+    out[2], p = full_adder(a[2], b[2], o)
+    out[1], q = full_adder(a[1], b[1], p)
+    out[0], _ = full_adder(a[0], b[0], q)
+    return out
