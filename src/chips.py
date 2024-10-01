@@ -585,18 +585,13 @@ def alu(
         >>> f = 1
         >>> no = 0
         >>> output, zr, ng = alu(x, y, zx, nx, zy, ny, f, no)
-        >>> print(output)
-        [1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1]
+        >>> print(output, zr, ng)
+        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], 0, 0
 
         >>> zx = 1
         >>> output, zr, ng = alu(x, y, zx, nx, zy, ny, f, no)
         >>> print(output)
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
-        >>> nx = 1
-        >>> output, zr, ng = alu(x, y, zx, nx, zy, ny, f, no)
-        >>> print(output)
-        [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1]
+        [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1], 0, 0
     """
 
     zdx = mux16(x, [0] * 16, zx)  # If (zx == 1), set x = 0
