@@ -539,6 +539,42 @@ def alu(
     - **f = 1:** Performs AND operation (x & y).
     - **no = 1:** Negates the output.
 
+    ALU (Arithmetic Logic Unit):
+    Computes out = one of the following functions:
+                    0, 1, -1,
+                    x, y, !x, !y, -x, -y,
+                    x + 1, y + 1, x - 1, y - 1,
+                    x + y, x - y, y - x,
+                    x & y, x | y
+    on the 16-bit inputs x, y,
+    according to the input bits zx, nx, zy, ny, f, no.
+    In addition, computes the two output bits:
+    if (out == 0) zr = 1, else zr = 0
+    if (out < 0)  ng = 1, else ng = 0
+
+    Implementation: Manipulates the x and y inputs
+    and operates on the resulting values, as follows:
+    if (zx == 1) sets x = 0        // 16-bit constant
+    if (nx == 1) sets x = !x       // bitwise not
+    if (zy == 1) sets y = 0        // 16-bit constant
+    if (ny == 1) sets y = !y       // bitwise not
+    if (f == 1)  sets out = x + y  // integer 2's complement addition
+    if (f == 0)  sets out = x & y  // bitwise and
+    if (no == 1) sets out = !out   // bitwise not
+
+    IN
+        x[16], y[16],  // 16-bit inputs
+        zx, // zero the x input?
+        nx, // negate the x input?
+        zy, // zero the y input?
+        ny, // negate the y input?
+        f,  // compute (out = x + y) or (out = x & y)?
+        no; // negate the out output?
+    OUT
+        out[16], // 16-bit output
+        zr,      // if (out == 0) equals 1, else 0
+        ng;      // if (out < 0)  equals 1, else 0
+
     Examples:
         >>> x = [1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0]
         >>> y = [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]
@@ -562,43 +598,27 @@ def alu(
         >>> print(output)
         [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1]
     """
-    # Zero the x input
+    # Zeroing x and y
     zdx = mux16(x, [0] * 16, zx)
-
-    # Negate the x input
-    notx = not16(zdx)
-
-    # Choose x or notx based on nx
-    ndx = mux16(zdx, notx, nx)
-
-    # Zero the y input
     zdy = mux16(y, [0] * 16, zy)
 
-    # Negate the y input
+    # Negating x and y
+    notx = not16(zdx)
     noty = not16(zdy)
 
-    # Choose y or noty based on ny
+    # Choosing x or notx, y or noty
+    ndx = mux16(zdx, notx, nx)
     ndy = mux16(zdy, noty, ny)
 
-    # Perform addition or AND operation based on f
-    if f == 1:
-        fxy = add16(ndx, ndy)
-    else:
-        fxy = and16(ndx, ndy)
-
-    # Negate the output if no is 1
+    # Performing the selected operation
+    xplusy = add16(ndx, ndy)
+    xandy = and16(ndx, ndy)
+    fxy = mux16(xandy, xplusy, f)
     nfxy = not16(fxy)
-
-    # Choose fxy or nfxy based on no
     oo = mux16(fxy, nfxy, no)
 
-    # Calculate zero flag
-    zr = not16(or16(oo, [0] * 16))[0]
-
-    # Calculate negative flag
+    # Checking for zero result and negative result
+    zr = or8way(oo[0:8])
     ng = oo[15]
 
-    # Final output
-    output = oo
-
-    return output, zr, ng
+    return oo, zr, ng
