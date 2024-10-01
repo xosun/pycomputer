@@ -514,13 +514,13 @@ def alu(
     Implements an Arithmetic Logic Unit (ALU) for 16-bit operations.
 
     Args:
-        x: A 16-integer input operand.
-        y: A 16-integer input operand.
+        x: A 16-bit input operand.
+        y: A 16-bit input operand.
         zx: Zero x?
         nx: Negate y?
         zy: Zero y?
         ny: Negate x?
-        f: Function select.
+        f: Function select (0 for AND, 1 for addition).
         no: Negate the output?
 
     Returns:
@@ -535,45 +535,28 @@ def alu(
     - **nx = 1:** Negates y.
     - **zy = 1:** Sets y to 0.
     - **ny = 1:** Negates y.
-    - **f = 0:** Performs addition (x + y).
-    - **f = 1:** Performs AND operation (x & y).
+    - **f = 0:** Performs AND operation (x & y).
+    - **f = 1:** Performs addition (x + y).
     - **no = 1:** Negates the output.
 
-    ALU (Arithmetic Logic Unit):
-    Computes out = one of the following functions:
-                    0, 1, -1,
-                    x, y, !x, !y, -x, -y,
-                    x + 1, y + 1, x - 1, y - 1,
-                    x + y, x - y, y - x,
-                    x & y, x | y
-    on the 16-bit inputs x, y,
-    according to the input bits zx, nx, zy, ny, f, no.
-    In addition, computes the two output bits:
-    if (out == 0) zr = 1, else zr = 0
-    if (out < 0)  ng = 1, else ng = 0
+    **ALU Operations:**
 
-    Implementation: Manipulates the x and y inputs
-    and operates on the resulting values, as follows:
-    if (zx == 1) sets x = 0        // 16-bit constant
-    if (nx == 1) sets x = !x       // bitwise not
-    if (zy == 1) sets y = 0        // 16-bit constant
-    if (ny == 1) sets y = !y       // bitwise not
-    if (f == 1)  sets out = x + y  // integer 2's complement addition
-    if (f == 0)  sets out = x & y  // bitwise and
-    if (no == 1) sets out = !out   // bitwise not
-
-    IN
-        x[16], y[16],  // 16-bit inputs
-        zx, // zero the x input?
-        nx, // negate the x input?
-        zy, // zero the y input?
-        ny, // negate the y input?
-        f,  // compute (out = x + y) or (out = x & y)?
-        no; // negate the out output?
-    OUT
-        out[16], // 16-bit output
-        zr,      // if (out == 0) equals 1, else 0
-        ng;      // if (out < 0)  equals 1, else 0
+    - **x + y:** Addition (f = 1).
+    - **x - y:** Subtraction (f = 1, ny = 1).
+    - **y - x:** Subtraction (f = 1, nx = 1).
+    - **x & y:** Bitwise AND (f = 0).
+    - **x | y:** Bitwise OR (f = 0, nx = 1, ny = 1).
+    - **x + 1:** Increment (f = 1, y = [0] * 16, ny = 1).
+    - **y + 1:** Increment (f = 1, x = [0] * 16, nx = 1).
+    - **x - 1:** Decrement (f = 1, y = [0] * 16, ny = 0).
+    - **y - 1:** Decrement (f = 1, x = [0] * 16, nx = 0).
+    - **0:** Zero (zx = 1, zy = 1).
+    - **1:** One (zx = 1, zy = 1, f = 1, ny = 1).
+    - **-1:** Negative one (zx = 1, zy = 1, f = 1, nx = 1).
+    - **x:** Identity (zx = 0, nx = 0).
+    - **y:** Identity (zy = 0, ny = 0).
+    - **!x:** Bitwise NOT (zx = 0, nx = 1).
+    - **!y:** Bitwise NOT (zy = 0, ny = 1).
 
     Examples:
         >>> x = [1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0]
