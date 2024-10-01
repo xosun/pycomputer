@@ -262,7 +262,7 @@ def or8way(a: list[int]) -> int:
         1
     """
     out = a[0]
-    for i in range(1, len(a)):
+    for i in range(1, 8):
         out = or_gate(out, a[i])
     return out
 
@@ -598,27 +598,25 @@ def alu(
         >>> print(output)
         [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1]
     """
-    # Zeroing x and y
-    zdx = mux16(x, [0] * 16, zx)
-    zdy = mux16(y, [0] * 16, zy)
 
-    # Negating x and y
-    notx = not16(zdx)
-    noty = not16(zdy)
+    zdx = mux16(x, [0] * 16, zx)  # If (zx == 1), set x = 0
+    zdy = mux16(y, [0] * 16, zy)  # If (nx == 1), set y = 0
 
-    # Choosing x or notx, y or noty
-    ndx = mux16(zdx, notx, nx)
-    ndy = mux16(zdy, noty, ny)
+    ndx = mux16(zdx, not16(zdx), nx)  # If (nx == 1), set x = !x
+    ndy = mux16(zdy, not16(zdy), ny)  # if (ny == 1), set y = !y
 
-    # Performing the selected operation
-    xplusy = add16(ndx, ndy)
-    xandy = and16(ndx, ndy)
-    fxy = mux16(xandy, xplusy, f)
-    nfxy = not16(fxy)
-    oo = mux16(fxy, nfxy, no)
+    # If (f == 0), set out = x & y
+    # If (f == 1), set out = x + y
+    fxy = mux16(and16(ndx, ndy), add16(ndx, ndy), f)
 
-    # Checking for zero result and negative result
-    zr = or8way(oo[0:8])
-    ng = oo[15]
+    # If (no == 1), set out = !out
+    out = mux16(fxy, not16(fxy), no)
 
-    return oo, zr, ng
+    # If (out == 0) zr = 1, else zr = 0
+    zr = not_gate(or_gate(or8way(out[0:8]), or8way(out[8:16])))
+
+    # If (out < 0) ng = 1, else ng = 0
+    # The MSB signifies the sign. If it is 1, the number is negative. If 0, positive.
+    ng = out[0]
+
+    return out, zr, ng
