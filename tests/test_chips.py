@@ -23,6 +23,7 @@ from src.chips import (
     add16,
     inc16,
     alu,
+    sr_latch,
 )
 
 
@@ -148,6 +149,11 @@ def test_add16(a, out):
 )
 def test_alu(x, y, zx, nx, zy, ny, f, no, out, zr, ng):
     assert alu(x, y, zx, nx, zy, ny, f, no) == (out, zr, ng)
+
+
+@pytest.mark.parametrize("s, r, q_prev, q_next", read_csv_data("sr_latch.csv"))
+def test_sr_latch(s, r, q_prev, q_next):
+    assert sr_latch(s, r, q_prev) == q_next
 
 
 if __name__ == "__main__":

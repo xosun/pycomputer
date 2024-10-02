@@ -29,6 +29,9 @@
 
 ## 3. Sequential Logic
 
+- Clock
+- SR Latch
+- Clocked SR Latch
 - DFF
 - Bit
 - Register

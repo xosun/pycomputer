@@ -598,3 +598,34 @@ def alu(
     ng = out[0]
 
     return out, zr, ng
+
+
+def sr_latch(s: int, r: int, q_prev: int) -> int:
+    """
+    Implements an SR latch.
+
+    Args:
+        s: The set input.
+        r: The reset input.
+        q_prev: The previous output value.
+
+    Returns:
+        The current output value.
+
+    States:
+        SET: S = 0, R = 0: The output (Q(next)) retains its previous value (Q(prev)).
+        RESET: S = 1, R = 0: The output is set to 1, regardless of the previous value.
+        HOLD: S = 0, R = 1: The output is reset to 0, regardless of the previous value.
+        INVALID: S = 1, R = 1: Undefined. A race condition. May oscillate or become indeterminate.
+    """
+
+    if s == 0 and r == 0:
+        q = q_prev
+    if s == 1 and r == 0:
+        q = 1
+    if s == 0 and r == 1:
+        q = 0
+    if s == 1 and r == 1:
+        raise ValueError("Invalid input: Both S and R cannot be 1.")
+
+    return q
