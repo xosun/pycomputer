@@ -634,6 +634,7 @@ def sr_latch(s: int, r: int, q_prev: int) -> int:
 import time
 
 
+# @TODO: Spec
 def clock(frequency=1000):
     """
     Simulates a clock signal.
@@ -659,5 +660,6 @@ for i in range(10):
     print(f"Clock state: {clock_state}")
 
 
+# @TODO: Implement and Spec
 def clocked_sr_latch(clk: int, s: int, r: int, q_prev: int) -> int:
     pass

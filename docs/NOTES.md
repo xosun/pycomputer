@@ -30,7 +30,7 @@
 ## 3. Sequential Logic
 
 - Clock
-- SR Latch
+- [x] SR Latch
 - Clocked SR Latch
 - DFF
 - Bit
