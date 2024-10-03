@@ -629,3 +629,35 @@ def sr_latch(s: int, r: int, q_prev: int) -> int:
         raise ValueError("Invalid input: Both S and R cannot be 1.")
 
     return q
+
+
+import time
+
+
+def clock(frequency=1000):
+    """
+    Simulates a clock signal.
+
+    Args:
+      frequency: The frequency of the clock in Hz.
+
+    Yields:
+      A sequence of 0s and 1s representing the clock signal.
+    """
+
+    period = 1 / frequency  # Calculate the period of the clock
+    while True:
+        yield 1  # High state
+        time.sleep(period / 2)
+        yield 0  # Low state
+        time.sleep(period / 2)
+
+
+clk = clock(frequency=1000)  # Create a clock with a frequency of 1 kHz
+for i in range(10):
+    clock_state = next(clk)
+    print(f"Clock state: {clock_state}")
+
+
+def clocked_sr_latch(clk: int, s: int, r: int, q_prev: int) -> int:
+    pass
