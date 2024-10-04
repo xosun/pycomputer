@@ -151,9 +151,13 @@ def test_alu(x, y, zx, nx, zy, ny, f, no, out, zr, ng):
     assert alu(x, y, zx, nx, zy, ny, f, no) == (out, zr, ng)
 
 
-@pytest.mark.parametrize("s, r, q_prev, q_next", read_csv_data("sr_latch.csv"))
-def test_sr_latch(s, r, q_prev, q_next):
-    assert sr_latch(s, r, q_prev) == q_next
+@pytest.mark.parametrize("s, r, q_before, q_after", read_csv_data("sr_latch.csv"))
+def test_sr_latch(s, r, q_before, q_after):
+    if s == 1 and r == 1:
+        with pytest.raises(ValueError):
+            assert sr_latch(s, r, q_before) == q_after
+    else:
+        assert sr_latch(s, r, q_before) == q_after
 
 
 if __name__ == "__main__":

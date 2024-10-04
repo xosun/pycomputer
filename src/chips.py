@@ -600,7 +600,7 @@ def alu(
     return out, zr, ng
 
 
-def sr_latch(s: int, r: int, q_prev: int) -> int:
+def sr_latch(s: int, r: int, q_before: int) -> int:
     """
     Implements an SR latch.
 
@@ -620,7 +620,7 @@ def sr_latch(s: int, r: int, q_prev: int) -> int:
     """
 
     if s == 0 and r == 0:
-        q = q_prev
+        q = q_before
     if s == 1 and r == 0:
         q = 1
     if s == 0 and r == 1:
