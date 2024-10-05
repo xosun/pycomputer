@@ -662,4 +662,19 @@ for i in range(10):
 
 # @TODO: Implement and Spec
 def clocked_sr_latch(clk: int, s: int, r: int, q_prev: int) -> int:
-    pass
+    """
+    Implements a clocked SR latch.
+
+    Args:
+        clk: The clock signal.
+        s: The set input.
+        r: The reset input.
+        q_prev: The previous output value.
+
+    Returns:
+        The current output value.
+
+    This clocked SR latch uses a leader-follower configuration to ensure that the output only changes on the rising edge of the clock.
+    """
+
+    return mux(q_prev, sr_latch(s, r, q_prev), clk)

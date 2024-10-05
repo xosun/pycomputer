@@ -24,6 +24,8 @@ from src.chips import (
     inc16,
     alu,
     sr_latch,
+    clock,
+    clocked_sr_latch,
 )
 
 
@@ -158,6 +160,29 @@ def test_sr_latch(s, r, q_before, q_after):
             assert sr_latch(s, r, q_before) == q_after
     else:
         assert sr_latch(s, r, q_before) == q_after
+
+
+# @TODO: SPEC clock
+
+
+@pytest.mark.parametrize(
+    "s, r, q_prev, clk_cycles",
+    [
+        (0, 0, 0, 1),
+        (1, 0, 0, 1),
+        (0, 1, 1, 1),
+        (0, 0, 1, 2),
+        (1, 0, 1, 2),
+        (0, 1, 0, 2),
+    ],
+)
+def test_clocked_sr_latch(s, r, q_prev, clk_cycles):
+    clk = clock(frequency=1000)  # Create a clock with a frequency of 1 kHz
+    q = q_prev
+    for _ in range(clk_cycles):
+        clk_state = next(clk)
+        q = clocked_sr_latch(clk_state, s, r, q)
+        print(f"Clock: {clk_state}, S: {s}, R: {r}, Q: {q}")
 
 
 if __name__ == "__main__":
