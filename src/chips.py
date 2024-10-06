@@ -634,7 +634,6 @@ def sr_latch(s: int, r: int, q_before: int) -> int:
     return q
 
 
-# @TODO: Spec
 def clock(frequency=1000):
     """
     Simulates a clock signal.
@@ -660,7 +659,6 @@ def clock(frequency=1000):
         time.sleep(period / 2)
 
 
-# @TODO: Implement and Spec
 def clocked_sr_latch(clk: int, s: int, r: int, q_prev: int) -> int:
     """
     Implements a clocked SR latch.
