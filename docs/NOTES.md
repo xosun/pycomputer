@@ -29,10 +29,10 @@
 
 ## 3. Sequential Logic
 
-- Clock
+- [x] Clock
 - [x] SR Latch
-- Clocked SR Latch
-- DFF
+- [x] Clocked SR Latch
+- [x] DFF
 - Bit
 - Register
 - PC

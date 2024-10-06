@@ -28,6 +28,7 @@ from src.chips import (
     sr_latch,
     clock,
     clocked_sr_latch,
+    dff,
 )
 
 
@@ -203,7 +204,7 @@ def test_clock_state_alternation():
 
 
 @pytest.mark.parametrize(
-    "s, r, q_prev, clk_cycles",
+    "s, r, q_before, clk_cycles",
     [
         (0, 0, 0, 1),
         (1, 0, 0, 1),
@@ -213,13 +214,18 @@ def test_clock_state_alternation():
         (0, 1, 0, 2),
     ],
 )
-def test_clocked_sr_latch(s, r, q_prev, clk_cycles):
+def test_clocked_sr_latch(s, r, q_before, clk_cycles):
     clk = clock(frequency=1000)  # Create a clock with a frequency of 1 kHz
-    q = q_prev
+    q = q_before
     for _ in range(clk_cycles):
         clk_state = next(clk)
         q = clocked_sr_latch(clk_state, s, r, q)
         print(f"Clock: {clk_state}, S: {s}, R: {r}, Q: {q}")
+
+
+@pytest.mark.parametrize("clk, d, q_before, q_after", read_csv_data("dff.csv"))
+def test_dff(clk, d, q_before, q_after):
+    assert dff(clk, d, q_before) == q_after
 
 
 if __name__ == "__main__":

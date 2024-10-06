@@ -676,3 +676,22 @@ def clocked_sr_latch(clk: int, s: int, r: int, q_prev: int) -> int:
     """
 
     return mux(q_prev, sr_latch(s, r, q_prev), clk)
+
+
+def dff(clk: int, d: int, q_prev: int) -> int:
+    """
+    Implements a Data Flip-Flop.
+
+    Args:
+        clk: The clock signal.
+        d: The data input.
+        q_prev: The previous output value.
+
+    Returns:
+        The current output value.
+    """
+
+    # Simulate a reset input that is always 0
+    reset = 0
+
+    return clocked_sr_latch(clk, d, reset, q_prev)
