@@ -644,6 +644,12 @@ def clock(frequency=1000):
 
     Yields:
       A sequence of 0s and 1s representing the clock signal.
+
+    Example:
+        >>> clk = clock(frequency=1000)  # Create a clock with a frequency of 1 kHz
+        >>> for i in range(10):
+        >>>    clock_state = next(clk)
+        >>>    print(f"Clock state: {clock_state}")
     """
 
     period = 1 / frequency  # Calculate the period of the clock
@@ -652,12 +658,6 @@ def clock(frequency=1000):
         time.sleep(period / 2)
         yield 0  # Low state
         time.sleep(period / 2)
-
-
-clk = clock(frequency=1000)  # Create a clock with a frequency of 1 kHz
-for i in range(10):
-    clock_state = next(clk)
-    print(f"Clock state: {clock_state}")
 
 
 # @TODO: Implement and Spec

@@ -1,6 +1,8 @@
 import os
+import time
 import csv
 import pytest
+import statistics
 from src.chips import (
     nand_gate,
     and_gate,
@@ -162,7 +164,42 @@ def test_sr_latch(s, r, q_before, q_after):
         assert sr_latch(s, r, q_before) == q_after
 
 
-# @TODO: SPEC clock
+'''
+def test_clock_frequency():
+    """Test that the clock generates signals at the correct frequency."""
+
+    frequency = 1000  # Set the desired frequency
+    expected_period = 1 / frequency
+    clk = clock(frequency)
+
+    num_cycles = 10  # Increase the number of cycles
+    periods = []
+    for _ in range(num_cycles):
+        start_time = time.time()
+        next(clk)
+        end_time = time.time()
+        periods.append(end_time - start_time)
+
+    # Calculate the average period and standard deviation
+    average_period = statistics.mean(periods)
+    standard_deviation = statistics.stdev(periods)
+
+    print(periods)
+    # Check if the average period is within a certain tolerance
+    assert average_period == pytest.approx(expected_period, rel=0.2)  # Adjust tolerance as needed
+
+    # Optionally, check the standard deviation to assess variability
+    # assert standard_deviation < expected_period * 0.02  # Adjust threshold as needed
+'''
+
+
+def test_clock_state_alternation():
+    """Test that the clock alternates between high and low states."""
+
+    clk = clock(frequency=1000)
+    states = [next(clk) for _ in range(10)]
+
+    assert states == [1, 0, 1, 0, 1, 0, 1, 0, 1, 0]  # Check for alternating states
 
 
 @pytest.mark.parametrize(
