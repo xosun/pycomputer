@@ -1,3 +1,6 @@
+import time
+
+
 def nand_gate(a: int, b: int) -> int:
     """Implements a NAND gate.
 
@@ -629,9 +632,6 @@ def sr_latch(s: int, r: int, q_before: int) -> int:
         raise ValueError("Invalid input: Both S and R cannot be 1.")
 
     return q
-
-
-import time
 
 
 # @TODO: Spec
