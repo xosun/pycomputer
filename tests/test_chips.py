@@ -29,6 +29,7 @@ from src.chips import (
     clock,
     clocked_sr_latch,
     dff,
+    bit,
 )
 
 
@@ -226,6 +227,11 @@ def test_clocked_sr_latch(s, r, q_before, clk_cycles):
 @pytest.mark.parametrize("clk, d, q_before, q_after", read_csv_data("dff.csv"))
 def test_dff(clk, d, q_before, q_after):
     assert dff(clk, d, q_before) == q_after
+
+
+@pytest.mark.parametrize("time_, data, load, out", read_csv_data("bit.csv"))
+def test_bit(time_, data, load, out):
+    assert bit(time_, data, load) == out
 
 
 if __name__ == "__main__":

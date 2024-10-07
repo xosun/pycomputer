@@ -693,3 +693,16 @@ def dff(clk: int, d: int, q_prev: int) -> int:
 
     # Reset input is always 0
     return clocked_sr_latch(clk, d, 0, q_prev)
+
+
+# A 1-bit register
+# If load[t]=1 then out[t+1] = in[t]
+# Else out does not change (out[t+1]=out[t])
+def bit(time_, data, load):
+    # TODO: figure out how to pass mux to dff and dff to mux...
+    # HDL does it so check it out for starters
+
+    # time_: internal clock state (pull this in)
+    a = mux(q, data, load)
+    q = dff(time_, a, q)
+    return q
