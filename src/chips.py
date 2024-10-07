@@ -691,7 +691,5 @@ def dff(clk: int, d: int, q_prev: int) -> int:
         The current output value.
     """
 
-    # Simulate a reset input that is always 0
-    reset = 0
-
-    return clocked_sr_latch(clk, d, reset, q_prev)
+    # Reset input is always 0
+    return clocked_sr_latch(clk, d, 0, q_prev)
