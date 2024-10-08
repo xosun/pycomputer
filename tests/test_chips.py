@@ -234,5 +234,10 @@ def test_bit(time_, data, load, out):
     assert bit(time_, data, load) == out
 
 
+# @TODO: implement specs for register
+def test_register():
+    pass
+
+
 if __name__ == "__main__":
     pytest.main()

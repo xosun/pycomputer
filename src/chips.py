@@ -706,3 +706,28 @@ def bit(time_, data, load):
     a = mux(q, data, load)
     q = dff(time_, a, q)
     return q
+
+
+# A 16-bit register
+# If load[t]=1 then out[t+1] = in[t]
+# Else out does not change
+# @TODO: spec me
+def register(time_, data, load):
+    out = [0] * 16
+    out[0] = bit(time_, data[0], load)
+    out[1] = bit(time_, data[1], load)
+    out[2] = bit(time_, data[2], load)
+    out[3] = bit(time_, data[3], load)
+    out[4] = bit(time_, data[4], load)
+    out[5] = bit(time_, data[5], load)
+    out[6] = bit(time_, data[6], load)
+    out[7] = bit(time_, data[7], load)
+    out[8] = bit(time_, data[8], load)
+    out[9] = bit(time_, data[9], load)
+    out[10] = bit(time_, data[10], load)
+    out[11] = bit(time_, data[11], load)
+    out[12] = bit(time_, data[12], load)
+    out[13] = bit(time_, data[13], load)
+    out[14] = bit(time_, data[14], load)
+    out[15] = bit(time_, data[15], load)
+    return out
